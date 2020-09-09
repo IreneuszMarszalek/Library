@@ -7,6 +7,8 @@ public interface View {
   User showLogInMenuAndReturnResult();
   User showCreateUserMenuAndReturnUser();
   String showMainMenuAndReturnSelectedPositions();
+  String showActionMenuAndReturnSelectedPosition();
+  String showReportMenuAndReturnSelectedPosition();
 
   void displayLoginErrorMsg(int errorCode);
   void displayCreateUserErrorMsg(int errorCode);
