@@ -14,5 +14,7 @@
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
 
         <mapping class="pl.sdacademy.library.model.entity.User"/>
+        <mapping class="pl.sdacademy.library.model.entity.Author"/>
+        <mapping class="pl.sdacademy.library.model.entity.Book"/>
     </session-factory>
 </hibernate-configuration>
