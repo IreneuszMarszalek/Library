@@ -1,8 +1,10 @@
 package pl.sdacademy.library.model;
 
 import pl.sdacademy.library.model.dao.AuthorDao;
+import pl.sdacademy.library.model.dao.BookDao;
 import pl.sdacademy.library.model.dao.UserDao;
 import pl.sdacademy.library.model.daoimpl.AuthorDaoImpl;
+import pl.sdacademy.library.model.daoimpl.BookDaoImpl;
 import pl.sdacademy.library.model.daoimpl.UserDaoImpl;
 
 public class DataAccessorImpl implements DataAccessor{
@@ -14,5 +16,10 @@ public class DataAccessorImpl implements DataAccessor{
   @Override
   public AuthorDao getAuthorDao () {
 	return new AuthorDaoImpl();
+  }
+
+  @Override
+  public BookDao getBookDao () {
+	return new BookDaoImpl();
   }
 }

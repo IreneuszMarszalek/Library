@@ -1,7 +1,11 @@
 package pl.sdacademy.library.view;
 
+import pl.sdacademy.library.model.entity.Author;
+import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.utils.Console;
+
+import java.awt.*;
 import java.util.Scanner;
 
 public class ViewConsole implements View{
@@ -80,6 +84,7 @@ public class ViewConsole implements View{
 	System.out.println(" --------------- LibrarY Actions Menu  --------------- ");
 	System.out.println(" ----------------------------------------------------- ");
 	System.out.println(" - [B] Book | [U] User | [O] bOrrow | [G] Give back --");
+	System.out.println(" - [A] Author ----------------------------------------");
 	System.out.println(" ------------------- Make a choice ------------------- ");
 	System.out.println(" -------------------- Or [C] baCk -------------------- ");
 	System.out.print(" -->:");
@@ -94,7 +99,7 @@ public class ViewConsole implements View{
   public String showReportMenuAndReturnSelectedPosition () {
 	System.out.println(" --------------- LibrarY Reports Menu  --------------- ");
 	System.out.println(" ----------------------------------------------------- ");
-	System.out.println(" ------- [U] Users | [B] Books | [O] bOrrowed --------");
+	System.out.println(" - [U] Users | [B] Books | [O] bOrrowed | [A] Author -");
 	System.out.println(" ------------------- Make a choice ------------------- ");
 	System.out.println(" -------------------- Or [C] baCk -------------------- ");
 	System.out.print(" -->:");
@@ -102,6 +107,45 @@ public class ViewConsole implements View{
 	Scanner scanner = new Scanner(System.in);
 
 	return scanner.nextLine();
+  }
+
+  //It defines Create Author Menu view
+  @Override
+  public Author showCreateAuthorMenuAndReturnAuthor () {
+	Console.clearScreen();
+	System.out.println(" ----------------- Create Author Menu  --------------- ");
+	System.out.println(" ----------------------------------------------------- ");
+
+	Author author = new Author();
+
+	Scanner scanner = new Scanner(System.in);
+	System.out.print("Name: ");
+	author.setName(scanner.nextLine());
+	System.out.print("2nd name: ");
+	author.setSecondName(scanner.nextLine());
+
+	return author;
+  }
+
+  @Override
+  public Book showCreateBookMenuAndReturnBook () {
+	Console.clearScreen();
+	System.out.println(" ------------------ Create Book Menu  ---------------- ");
+	System.out.println(" ----------------------------------------------------- ");
+
+	Book book = new Book();
+	Author author = new Author();
+
+	Scanner scanner = new Scanner(System.in);
+	System.out.print("Title: ");
+	book.setTitle(scanner.nextLine());
+	System.out.print("Author (Name): ");
+	author.setName(scanner.nextLine());
+	System.out.print("Author (2nd name): ");
+	author.setSecondName(scanner.nextLine());
+	book.setAuthor(author);
+
+	return book;
   }
 
   // Error msgs
@@ -127,6 +171,33 @@ public class ViewConsole implements View{
 		break;
 	  case 2:
 		System.out.println("Incorrect password");
+		break;
+	  default:
+		System.out.println("Unknown error");
+	}
+  }
+
+  @Override
+  public void displayCreateAuthorErrorMsg (int errorCode) {
+	switch (errorCode){
+	  case 1:
+		System.out.println("Incorrect name");
+		break;
+	  case 2:
+		System.out.println("Incorrect 2nd name");
+		break;
+	  default:
+		System.out.println("Unknown error");
+	}
+  }
+
+  public void displayCreateBookErrorMsg (int errorCode) {
+	switch (errorCode){
+	  case 1:
+		System.out.println("Incorrect title");
+		break;
+	  case 2:
+		System.out.println("Incorrect author");
 		break;
 	  default:
 		System.out.println("Unknown error");

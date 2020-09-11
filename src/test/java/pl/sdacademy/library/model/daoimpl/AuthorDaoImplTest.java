@@ -23,6 +23,8 @@ class AuthorDaoImplTest {
         .getCurrentSession();
 
     session.beginTransaction();
+    session.createSQLQuery("delete from BookTurnover").executeUpdate();
+    session.createSQLQuery("delete from Book").executeUpdate();
     session.createSQLQuery("delete from Author").executeUpdate();
     session.getTransaction().commit();
     session.close();
@@ -90,5 +92,45 @@ class AuthorDaoImplTest {
 
     Author deleted = dao.findByID(author.getId());
     assertNull(deleted);
+  }
+
+  @Test
+  void findByName () {
+    AuthorDao dao = new AuthorDaoImpl();
+    Author author = new Author();
+
+    author.setName("Adam");
+    author.setSecondName("Mickiewicz");
+
+    dao.save(author);
+    List<Author> find = dao.findByName("Adam");
+
+    assertNotNull(find);
+    assertEquals(1, find.size());
+
+    assertEquals(author.getId(), find.get(0).getId());
+
+    List<Author> nothing = dao.findByName("Y");
+    assertEquals(0,nothing.size());
+  }
+
+  @Test
+  void findBySecondName () {
+    AuthorDao dao = new AuthorDaoImpl();
+    Author author = new Author();
+
+    author.setName("Adam");
+    author.setSecondName("Mickiewicz");
+
+    dao.save(author);
+    List<Author> find = dao.findBySecondName("Mickiewicz");
+
+    assertNotNull(find);
+    assertEquals(1, find.size());
+
+    assertEquals(author.getId(), find.get(0).getId());
+
+    List<Author> nothing = dao.findBySecondName("Y");
+    assertEquals(0,nothing.size());
   }
 }

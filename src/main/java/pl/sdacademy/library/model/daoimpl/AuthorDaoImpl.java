@@ -55,7 +55,7 @@ public class AuthorDaoImpl implements AuthorDao {
 		.getCurrentSession();
 
 	session.beginTransaction();
-	List<Author> authors = null;
+	List authors = null;
 
 	try {
 	  authors = session
@@ -85,5 +85,55 @@ public class AuthorDaoImpl implements AuthorDao {
 
 	session.getTransaction().commit();
 	session.close();
+  }
+
+  @Override
+  public List<Author> findByName (String name) {
+	Session session = HibernateUtils
+		.getInstance()
+		.GetSessionFactory()
+		.getCurrentSession();
+
+	session.beginTransaction();
+	List<Author> authors = null;
+
+	try{
+	  authors = session
+		  .createQuery("from Author where name=:name", Author.class)
+		  .setParameter("name", name)
+		  .list();
+
+	}catch (NoResultException e){
+
+	}
+	session.getTransaction().commit();
+	session.close();
+
+	return authors;
+  }
+
+  @Override
+  public List<Author> findBySecondName (String secondName) {
+	Session session = HibernateUtils
+		.getInstance()
+		.GetSessionFactory()
+		.getCurrentSession();
+
+	session.beginTransaction();
+	List authors = null;
+
+	try{
+	  authors = session
+		  .createQuery("from Author where secondName=:secondName", Author.class)
+		  .setParameter("secondName", secondName)
+		  .list();
+
+	}catch (NoResultException e){
+
+	}
+	session.getTransaction().commit();
+	session.close();
+
+	return authors;
   }
 }

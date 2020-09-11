@@ -23,4 +23,7 @@ public class Author {
 
   @OneToMany(mappedBy = "author")
   private Set<Book> books;
+
+  @OneToMany(mappedBy = "author")
+  private Set<BookTurnover> turnovers;
 }

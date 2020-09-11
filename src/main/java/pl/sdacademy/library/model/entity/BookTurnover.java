@@ -5,24 +5,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
 @Entity
-@Table(name="Book")
-public class Book {
+@Table(name="BookTurnover")
+
+public class BookTurnover {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
-  private String title;
+
+  private LocalDate loanDate;
+  private LocalDate returnDate;
+  private Integer period;
 
   @ManyToOne
   @JoinColumn(name = "author_id")
   private Author author;
 
-  @OneToMany(mappedBy = "book")
-  private Set<BookTurnover> turnovers;
+  @ManyToOne
+  @JoinColumn(name = "book_id")
+  private Book book;
 }

@@ -16,5 +16,6 @@
         <mapping class="pl.sdacademy.library.model.entity.User"/>
         <mapping class="pl.sdacademy.library.model.entity.Author"/>
         <mapping class="pl.sdacademy.library.model.entity.Book"/>
+        <mapping class="pl.sdacademy.library.model.entity.BookTurnover"/>
     </session-factory>
 </hibernate-configuration>

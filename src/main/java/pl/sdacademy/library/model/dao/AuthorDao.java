@@ -8,4 +8,6 @@ public interface AuthorDao {
   Author findByID(Long id);
   List<Author> findAll();
   void delete(Long id);
+  List<Author> findByName(String name);
+  List<Author> findBySecondName(String secondName);
 }
