@@ -1,8 +1,6 @@
 package pl.sdacademy.library.model.dao;
 
-import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.BookTurnover;
-
 import java.util.List;
 
 public interface BookTurnoverDao {

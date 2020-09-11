@@ -39,7 +39,7 @@ public class BookTurnOverDaoImpl implements BookTurnoverDao {
 		  .getSingleResult();
 
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 	session.getTransaction().commit();
 	session.close();
@@ -62,7 +62,7 @@ public class BookTurnOverDaoImpl implements BookTurnoverDao {
 		  .createQuery("from BookTurnover")
 		  .list();
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 
 	session.getTransaction().commit();

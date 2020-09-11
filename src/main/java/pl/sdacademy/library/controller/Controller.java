@@ -254,6 +254,7 @@ public class Controller {
 	handleReportsOption();
   }
 
+  //It creates new book
   private void handleAddBookOption () {
 	Book book = view.showCreateBookMenuAndReturnBook();
 	if (book.getTitle() == null) {

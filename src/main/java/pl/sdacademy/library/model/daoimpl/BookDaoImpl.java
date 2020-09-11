@@ -39,7 +39,7 @@ public class BookDaoImpl implements BookDao {
 		  .getSingleResult();
 
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 	session.getTransaction().commit();
 	session.close();
@@ -62,7 +62,7 @@ public class BookDaoImpl implements BookDao {
 		  .createQuery("from Book")
 		  .list();
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 
 	session.getTransaction().commit();

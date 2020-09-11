@@ -39,7 +39,7 @@ public class AuthorDaoImpl implements AuthorDao {
 		  .getSingleResult();
 
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 	session.getTransaction().commit();
 	session.close();
@@ -62,7 +62,7 @@ public class AuthorDaoImpl implements AuthorDao {
 		  .createQuery("from Author")
 		  .list();
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 
 	session.getTransaction().commit();
@@ -104,7 +104,7 @@ public class AuthorDaoImpl implements AuthorDao {
 		  .list();
 
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 	session.getTransaction().commit();
 	session.close();
@@ -129,7 +129,7 @@ public class AuthorDaoImpl implements AuthorDao {
 		  .list();
 
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 	session.getTransaction().commit();
 	session.close();

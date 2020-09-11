@@ -1,6 +1,5 @@
 package pl.sdacademy.library.model.dao;
 
-import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 
 import java.util.List;

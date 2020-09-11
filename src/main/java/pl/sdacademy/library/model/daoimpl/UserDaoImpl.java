@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
 		  .getSingleResult();
 
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 	session.getTransaction().commit();
 	session.close();
@@ -55,14 +55,14 @@ public class UserDaoImpl implements UserDao {
 		.getCurrentSession();
 
 	session.beginTransaction();
-	List<User> users = null;
+	List users = null;
 
 	try {
 	  users = session
 		  .createQuery("from User")
 		  .list();
 	}catch (NoResultException e){
-
+	  e.getStackTrace();
 	}
 
 	session.getTransaction().commit();
@@ -103,7 +103,7 @@ public class UserDaoImpl implements UserDao {
 		  .getSingleResult();
 
 	}catch(NoResultException e){
-
+		e.getStackTrace();
 	}
 
 	session.getTransaction().commit();

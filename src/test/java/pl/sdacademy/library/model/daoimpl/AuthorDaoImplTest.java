@@ -4,12 +4,8 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.sdacademy.library.model.dao.AuthorDao;
-import pl.sdacademy.library.model.dao.UserDao;
 import pl.sdacademy.library.model.entity.Author;
-import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.utils.HibernateUtils;
-
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
