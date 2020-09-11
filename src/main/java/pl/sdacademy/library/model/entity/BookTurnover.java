@@ -24,8 +24,8 @@ public class BookTurnover {
   private Integer period;
 
   @ManyToOne
-  @JoinColumn(name = "author_id")
-  private Author author;
+  @JoinColumn(name = "user_id")
+  private User user;
 
   @ManyToOne
   @JoinColumn(name = "book_id")

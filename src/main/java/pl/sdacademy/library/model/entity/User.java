@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -28,4 +29,7 @@ public class User {
   private LocalDate leavingDate;
   private Boolean active;
   private Boolean admin;
+
+  @OneToMany(mappedBy = "user")
+  private Set<BookTurnover> turnovers;
 }
