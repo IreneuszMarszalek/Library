@@ -13,11 +13,11 @@ import pl.sdacademy.library.view.ViewConsole;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Controller {
   private final View view;
+  //TODO: Przerob DataAccessora na Model.
   private final DataAccessor model;
   private final Model newModel;
 

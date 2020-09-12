@@ -177,7 +177,7 @@ public class ViewConsole implements View {
 
   public ContinueScreenOption printContinue(){
     String option;
-	System.out.print(" - Press " + ContinueScreenOption.CONTINUE + " to continue: ");
+	System.out.print(" - Press " + ContinueScreenOption.CONTINUE.label + " to continue: ");
 	Scanner scanner = new Scanner(System.in);
 	option = scanner.nextLine();
 	return ContinueScreenOption.valueOfLabel(option);
