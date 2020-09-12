@@ -7,7 +7,7 @@ import pl.sdacademy.library.model.dao.AuthorDao;
 import pl.sdacademy.library.model.dao.BookDao;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
-import pl.sdacademy.library.utils.HibernateUtils;
+import pl.sdacademy.library.model.utils.HibernateUtils;
 
 import java.util.List;
 

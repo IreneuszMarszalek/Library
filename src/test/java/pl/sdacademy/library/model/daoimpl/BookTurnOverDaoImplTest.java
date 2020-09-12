@@ -11,7 +11,7 @@ import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.BookTurnover;
 import pl.sdacademy.library.model.entity.User;
-import pl.sdacademy.library.utils.HibernateUtils;
+import pl.sdacademy.library.model.utils.HibernateUtils;
 
 import java.time.LocalDate;
 import java.util.List;

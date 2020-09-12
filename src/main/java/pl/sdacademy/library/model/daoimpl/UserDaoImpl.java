@@ -3,7 +3,7 @@ package pl.sdacademy.library.model.daoimpl;
 import org.hibernate.Session;
 import pl.sdacademy.library.model.dao.UserDao;
 import pl.sdacademy.library.model.entity.User;
-import pl.sdacademy.library.utils.HibernateUtils;
+import pl.sdacademy.library.model.utils.HibernateUtils;
 
 import javax.persistence.NoResultException;
 import java.util.List;

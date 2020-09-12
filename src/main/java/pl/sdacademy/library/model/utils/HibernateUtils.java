@@ -1,6 +1,5 @@
-package pl.sdacademy.library.utils;
+package pl.sdacademy.library.model.utils;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;

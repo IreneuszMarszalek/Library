@@ -1,17 +1,12 @@
-package pl.sdacademy.library.model.entity;
+package pl.sdacademy.library.model.dto;
 
-import javax.persistence.*;
+import pl.sdacademy.library.model.entity.BookTurnover;
+
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity
-@Table(name="User", uniqueConstraints = @UniqueConstraint(name = "uk_user_nick", columnNames = ("nick")))
-
-public class User {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+public class UserDto {
   private long id;
-  @Column(unique = true)
   private String nick;
   private String password;
   private String name;
@@ -21,95 +16,93 @@ public class User {
   private LocalDate leavingDate;
   private Boolean active;
   private Boolean admin;
-
-  @OneToMany(mappedBy = "user")
   private Set<BookTurnover> turnovers;
 
   public long getId () {
-    return id;
+	return id;
   }
 
   public void setId (long id) {
-    this.id = id;
+	this.id = id;
   }
 
   public String getNick () {
-    return nick;
+	return nick;
   }
 
   public void setNick (String nick) {
-    this.nick = nick;
+	this.nick = nick;
   }
 
   public String getPassword () {
-    return password;
+	return password;
   }
 
   public void setPassword (String password) {
-    this.password = password;
+	this.password = password;
   }
 
   public String getName () {
-    return name;
+	return name;
   }
 
   public void setName (String name) {
-    this.name = name;
+	this.name = name;
   }
 
   public String getSecondName () {
-    return secondName;
+	return secondName;
   }
 
   public void setSecondName (String secondName) {
-    this.secondName = secondName;
+	this.secondName = secondName;
   }
 
   public Integer getAge () {
-    return age;
+	return age;
   }
 
   public void setAge (Integer age) {
-    this.age = age;
+	this.age = age;
   }
 
   public LocalDate getJoiningDate () {
-    return joiningDate;
+	return joiningDate;
   }
 
   public void setJoiningDate (LocalDate joiningDate) {
-    this.joiningDate = joiningDate;
+	this.joiningDate = joiningDate;
   }
 
   public LocalDate getLeavingDate () {
-    return leavingDate;
+	return leavingDate;
   }
 
   public void setLeavingDate (LocalDate leavingDate) {
-    this.leavingDate = leavingDate;
+	this.leavingDate = leavingDate;
   }
 
   public Boolean getActive () {
-    return active;
+	return active;
   }
 
   public void setActive (Boolean active) {
-    this.active = active;
+	this.active = active;
   }
 
   public Boolean getAdmin () {
-    return admin;
+	return admin;
   }
 
   public void setAdmin (Boolean admin) {
-    this.admin = admin;
+	this.admin = admin;
   }
 
   public Set<BookTurnover> getTurnovers () {
-    return turnovers;
+	return turnovers;
   }
 
   public void setTurnovers (Set<BookTurnover> turnovers) {
-    this.turnovers = turnovers;
+	this.turnovers = turnovers;
   }
 }

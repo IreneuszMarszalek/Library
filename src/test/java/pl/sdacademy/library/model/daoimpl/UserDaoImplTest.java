@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.sdacademy.library.model.dao.UserDao;
 import pl.sdacademy.library.model.entity.User;
-import pl.sdacademy.library.utils.HibernateUtils;
+import pl.sdacademy.library.model.utils.HibernateUtils;
 
 import java.time.LocalDate;
 import java.util.List;

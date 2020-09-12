@@ -1,26 +1,29 @@
 package pl.sdacademy.library.view;
 
+import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
-import pl.sdacademy.library.utils.Console;
+import pl.sdacademy.library.model.utils.Console;
 
-import java.awt.*;
+//TODO: enum dla menu
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
-public class ViewConsole implements View{
+public class ViewConsole implements View {
   // It defines Welcome Menu view
   @Override
   public String showWelcomeMenuAndReturnSelectedPosition () {
-	  System.out.println(" --------------- LibrarY Welcome Menu  --------------- ");
-	  System.out.println(" ----------------------------------------------------- ");
-	  System.out.println(" ----------- [L] Log In | [C] Create User ------------ ");
-	  System.out.println(" ------------------- Make a choice ------------------- ");
-	  System.out.println(" -------------------- Or [X] eXit -------------------- ");
-	  System.out.print(" -->:");
+	System.out.println(" --------------- LibrarY Welcome Menu  --------------- ");
+	System.out.println(" ----------------------------------------------------- ");
+	System.out.println(" ----------- [L] Log In | [C] Create User ------------ ");
+	System.out.println(" ------------------- Make a choice ------------------- ");
+	System.out.println(" -------------------- Or [X] eXit -------------------- ");
+	System.out.print(" -->:");
 
-	  Scanner scanner = new Scanner(System.in);
-	  return scanner.nextLine();
+	Scanner scanner = new Scanner(System.in);
+	return scanner.nextLine();
   }
 
   // It defines Log In Menu view
@@ -41,7 +44,7 @@ public class ViewConsole implements View{
 	return user;
   }
 
-// It defines Create User Menu view
+  // It defines Create User Menu view
   @Override
   public User showCreateUserMenuAndReturnUser () {
 	Console.clearScreen();
@@ -61,6 +64,30 @@ public class ViewConsole implements View{
 	user.setSecondName(scanner.nextLine());
 
 	return user;
+  }
+
+  //It prints all users
+  public void printUserList (List<UserDto> userList) {
+	System.out.println(" --------------------------------------- User List  -------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" - ID | Nick | Name | Second Name | Joining Date ----------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	userList
+		.stream()
+		.forEach(userDto -> System.out.println(
+				" - "
+				+ userDto.getId()
+				+ " | "
+				+ userDto.getNick()
+				+ " | "
+				+ userDto.getName()
+				+ " | "
+				+ userDto.getSecondName()
+				+ " | "
+				+ userDto.getJoiningDate()
+			)
+		);
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
   }
 
   // It defines Main Menu view
@@ -148,10 +175,18 @@ public class ViewConsole implements View{
 	return book;
   }
 
+  public ContinueScreenOption printContinue(){
+    String option;
+	System.out.print(" - Press " + ContinueScreenOption.CONTINUE + " to continue: ");
+	Scanner scanner = new Scanner(System.in);
+	option = scanner.nextLine();
+	return ContinueScreenOption.valueOfLabel(option);
+  }
+
   // Error msgs
   @Override
   public void displayLoginErrorMsg (int errorCode) {
-	switch (errorCode){
+	switch (errorCode) {
 	  case 1:
 		System.out.println("User does not exist");
 		break;
@@ -165,7 +200,7 @@ public class ViewConsole implements View{
 
   @Override
   public void displayCreateUserErrorMsg (int errorCode) {
-	switch (errorCode){
+	switch (errorCode) {
 	  case 1:
 		System.out.println("Incorrect nick");
 		break;
@@ -179,7 +214,7 @@ public class ViewConsole implements View{
 
   @Override
   public void displayCreateAuthorErrorMsg (int errorCode) {
-	switch (errorCode){
+	switch (errorCode) {
 	  case 1:
 		System.out.println("Incorrect name");
 		break;
@@ -192,7 +227,7 @@ public class ViewConsole implements View{
   }
 
   public void displayCreateBookErrorMsg (int errorCode) {
-	switch (errorCode){
+	switch (errorCode) {
 	  case 1:
 		System.out.println("Incorrect title");
 		break;
@@ -202,5 +237,9 @@ public class ViewConsole implements View{
 	  default:
 		System.out.println("Unknown error");
 	}
+  }
+
+  public void clearScreen(){
+    Console.clearScreen();
   }
 }

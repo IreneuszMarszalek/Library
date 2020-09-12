@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.sdacademy.library.model.dao.AuthorDao;
 import pl.sdacademy.library.model.entity.Author;
-import pl.sdacademy.library.utils.HibernateUtils;
+import pl.sdacademy.library.model.utils.HibernateUtils;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

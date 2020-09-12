@@ -2,23 +2,29 @@ package pl.sdacademy.library.controller;
 
 import pl.sdacademy.library.model.DataAccessor;
 import pl.sdacademy.library.model.DataAccessorImpl;
+import pl.sdacademy.library.model.Model;
+import pl.sdacademy.library.model.ModelImpl;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
+import pl.sdacademy.library.view.ContinueScreenOption;
 import pl.sdacademy.library.view.View;
 import pl.sdacademy.library.view.ViewConsole;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Controller {
   private final View view;
   private final DataAccessor model;
+  private final Model newModel;
 
   public Controller () {
 	view = new ViewConsole();
 	model = new DataAccessorImpl();
+	newModel = new ModelImpl();
   }
 
   //Starting Point
@@ -106,7 +112,6 @@ public class Controller {
 		case "c":
 		  handleMainMenuOption();
 		  break;
-
 	  }
 	} while (
 		(!("U".equalsIgnoreCase(option)))
@@ -217,10 +222,13 @@ public class Controller {
 
   //Displays users
   private void handleUsersReportOption () {
-	model.
-		getUserDao()
-		.findAll()
-		.forEach(user -> System.out.println(user.getId() + " " + user.getNick() + " " + user.getName() + " " + user.getSecondName()));
+    view.printUserList(newModel.getAllUsers());
+	ContinueScreenOption option;
+
+	do{
+	  option = view.printContinue();
+	}while(option != ContinueScreenOption.CONTINUE);
+
 	handleReportsOption();
   }
 

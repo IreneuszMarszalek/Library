@@ -14,6 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name="Author")
 
+//TODO: dodaj DTO.
+//TODO: korzystamy z dao ale zwracamy dto.
 public class Author {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
