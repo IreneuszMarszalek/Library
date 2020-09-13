@@ -153,6 +153,10 @@ public class Controller {
 		case "a":
 		  handleAddAuthorOption();
 		  break;
+		case "D":
+		case "d":
+		  handleDeleteUserOption();
+		  break;
 
 	  }
 	} while (
@@ -162,6 +166,7 @@ public class Controller {
 			&& (!("G".equalsIgnoreCase(option)))
 			&& (!("C".equalsIgnoreCase(option)))
 			&& (!("A".equalsIgnoreCase(option)))
+			&& (!("D".equalsIgnoreCase(option)))
 	);
   }
 
@@ -205,20 +210,39 @@ public class Controller {
 
 	if (nick == null) {
 	  view.displayCreateUserErrorMsg(1);
-	  handleCreateUserOption();
+	  handleActionsOption();
 	} else {
 	  if (password == null) {
 		view.displayCreateUserErrorMsg(2);
-		handleCreateUserOption();
+		handleActionsOption();
 	  } else {
 		if (newModel.getUserByNick(nick) != null) {
 		  view.displayCreateUserErrorMsg(1);
-		  handleCreateUserOption();
+		  handleActionsOption();
 		} else {
 		  newModel.addNewUser(user);
 		  view.displayCreateUserMsg(user);
 		}
 	  }
+	}
+  }
+
+  //It deletes user. Corrected !
+  private void handleDeleteUserOption(){
+    String userIdStr = view.showDeleteUserMenuAndReturnUser();
+    Long userId;
+	if(!(userIdStr.matches("\\d*"))){
+	  view.displayDeleteUserErrorMsg(1);
+	  handleActionsOption();
+	}else{
+	  userId = Long.parseLong(userIdStr);
+	  if (newModel.getUser(userId) == null){
+		view.displayDeleteUserErrorMsg(2);
+	  }else{
+		view.displayDeleteUserMsg(newModel.getUser(userId));
+	    newModel.deleteUser(newModel.getUser(userId));
+	  }
+	  handleActionsOption();
 	}
   }
 

@@ -25,6 +25,7 @@ public interface View {
   void displayCreateUserErrorMsg(int errorCode);
   void displayCreateAuthorErrorMsg(int errorCode);
   void displayCreateBookErrorMsg(int errorCode);
+  void displayDeleteUserErrorMsg(int errorCode);
 
   void displayCreateUserMsg(UserDto user);
   void displayDeleteUserMsg(UserDto userDto);

@@ -230,26 +230,46 @@ public class ViewConsole implements View {
   public void displayCreateUserErrorMsg (int errorCode) {
 	switch (errorCode) {
 	  case 1:
-		System.out.println();
 		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
 		System.out.println(" - Incorrect nick");
 		System.out.println(" ----------------------------------------------------------------------------------------- ");
 		System.out.println();
 		break;
 	  case 2:
-		System.out.println();
 		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
 		System.out.println(" - Incorrect password");
 		System.out.println(" ----------------------------------------------------------------------------------------- ");
 		System.out.println();
 		break;
 	  default:
-		System.out.println();
 		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
 		System.out.println(" - Unknown error");
 		System.out.println(" ----------------------------------------------------------------------------------------- ");
 		System.out.println();
 	}
+  }
+
+  public void displayDeleteUserErrorMsg(int errorCode){
+	switch (errorCode) {
+	  case 1:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Not numeric provided");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
+		break;
+	  case 2:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Wrong user ID provided");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
+		break;
+	  default:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Unknown error");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
+	}
+
   }
 
   public void displayCreateUserMsg (UserDto user) {

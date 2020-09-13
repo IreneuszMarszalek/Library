@@ -1,5 +1,4 @@
 package pl.sdacademy.library.model;
-
 import org.mapstruct.factory.Mappers;
 import pl.sdacademy.library.model.dao.UserDao;
 import pl.sdacademy.library.model.daoimpl.UserDaoImpl;
@@ -19,14 +18,19 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public UserDto getUserByNick (String nick) {
-    return mapper.map(userDao.findByNick(nick));
-  }
-
-  @Override
   public List<UserDto> getAllUsers () {
 	List<UserDto> result = mapper.map(userDao.findAll());
     return result;
+  }
+
+  @Override
+  public UserDto getUser (Long UserId) {
+    return mapper.map(userDao.findByID(UserId));
+  }
+
+  @Override
+  public UserDto getUserByNick (String nick) {
+    return mapper.map(userDao.findByNick(nick));
   }
 
   @Override
