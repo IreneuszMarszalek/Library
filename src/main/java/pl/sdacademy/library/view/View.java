@@ -27,6 +27,7 @@ public interface View {
   void displayCreateBookErrorMsg(int errorCode);
 
   void displayCreateUserMsg(UserDto user);
+  void displayDeleteUserMsg(UserDto userDto);
 
   void clearScreen();
 }

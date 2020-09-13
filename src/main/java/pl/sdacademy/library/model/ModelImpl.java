@@ -1,11 +1,7 @@
 package pl.sdacademy.library.model;
 
 import org.mapstruct.factory.Mappers;
-import pl.sdacademy.library.model.dao.AuthorDao;
-import pl.sdacademy.library.model.dao.BookDao;
 import pl.sdacademy.library.model.dao.UserDao;
-import pl.sdacademy.library.model.daoimpl.AuthorDaoImpl;
-import pl.sdacademy.library.model.daoimpl.BookDaoImpl;
 import pl.sdacademy.library.model.daoimpl.UserDaoImpl;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.User;
@@ -37,5 +33,11 @@ public class ModelImpl implements Model {
   public void addNewUser (UserDto userDto) {
     User user = mapper.map(userDto);
     userDao.save(user);
+  }
+
+  @Override
+  public void deleteUser (UserDto userDto) {
+    User user = mapper.map(userDto);
+    userDao.delete(user.getId());
   }
 }

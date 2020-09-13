@@ -66,7 +66,6 @@ public class ViewConsole implements View {
 	user.setActive(true);
 	user.setJoiningDate(LocalDate.now());
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
-	System.out.println();
 
 	return user;
   }
@@ -81,7 +80,6 @@ public class ViewConsole implements View {
 	System.out.print(" - Provide ID: ");
 	userID = scanner.nextLine();
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
-	System.out.println();
 
 	return userID;
   }
@@ -257,6 +255,13 @@ public class ViewConsole implements View {
   public void displayCreateUserMsg (UserDto user) {
 	System.out.println(" ------------------------------------- !! SUCCESS !! ------------------------------------- ");
 	System.out.println(" - User: " + user.getNick() + " | " + user.getName() + " | " + user.getSecondName() + " created");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println();
+  }
+
+  public void displayDeleteUserMsg (UserDto user) {
+	System.out.println(" ------------------------------------- !! SUCCESS !! ------------------------------------- ");
+	System.out.println(" - User: " + user.getNick() + " | " + user.getName() + " | " + user.getSecondName() + " deleted");
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
 	System.out.println();
   }
