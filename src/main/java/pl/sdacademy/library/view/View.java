@@ -10,7 +10,8 @@ import java.util.List;
 public interface View {
   String showWelcomeMenuAndReturnSelectedPosition();
   User showLogInMenuAndReturnResult();
-  User showCreateUserMenuAndReturnUser();
+  UserDto showCreateUserMenuAndReturnUser();
+  String showDeleteUserMenuAndReturnUser();
   String showMainMenuAndReturnSelectedPositions();
   String showActionMenuAndReturnSelectedPosition();
   String showReportMenuAndReturnSelectedPosition();
@@ -24,6 +25,8 @@ public interface View {
   void displayCreateUserErrorMsg(int errorCode);
   void displayCreateAuthorErrorMsg(int errorCode);
   void displayCreateBookErrorMsg(int errorCode);
+
+  void displayCreateUserMsg(UserDto user);
 
   void clearScreen();
 }

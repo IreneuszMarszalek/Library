@@ -4,6 +4,7 @@ import pl.sdacademy.library.model.DataAccessor;
 import pl.sdacademy.library.model.DataAccessorImpl;
 import pl.sdacademy.library.model.Model;
 import pl.sdacademy.library.model.ModelImpl;
+import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
@@ -196,31 +197,32 @@ public class Controller {
 	}
   }
 
-  //It creates user
+  //It creates user. Corrected !
   private void handleCreateUserOption () {
-	User user = view.showCreateUserMenuAndReturnUser();
-	if (user.getNick() == null) {
+	UserDto user = view.showCreateUserMenuAndReturnUser();
+	String nick = user.getNick();
+	String password = user.getPassword();
+
+	if (nick == null) {
 	  view.displayCreateUserErrorMsg(1);
-	  start();
+	  handleCreateUserOption();
 	} else {
-	  if (user.getPassword() == null) {
+	  if (password == null) {
 		view.displayCreateUserErrorMsg(2);
-		start();
+		handleCreateUserOption();
 	  } else {
-		if (model.getUserDao().findByNick(user.getNick()) != null) {
+		if (newModel.getUserByNick(nick) != null) {
 		  view.displayCreateUserErrorMsg(1);
-		  start();
+		  handleCreateUserOption();
 		} else {
-		  user.setAdmin(false);
-		  user.setActive(true);
-		  user.setJoiningDate(LocalDate.now());
-		  model.getUserDao().save(user);
+		  newModel.addNewUser(user);
+		  view.displayCreateUserMsg(user);
 		}
 	  }
 	}
   }
 
-  //Displays users
+  //Displays users. Corrected !
   private void handleUsersReportOption () {
     view.printUserList(newModel.getAllUsers());
 	ContinueScreenOption option;

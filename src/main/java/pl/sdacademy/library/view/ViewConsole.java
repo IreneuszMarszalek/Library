@@ -7,6 +7,7 @@ import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.model.utils.Console;
 
 //TODO: enum dla menu
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -46,24 +47,43 @@ public class ViewConsole implements View {
 
   // It defines Create User Menu view
   @Override
-  public User showCreateUserMenuAndReturnUser () {
-	Console.clearScreen();
-	System.out.println(" ----------------- Create User Menu  ----------------- ");
-	System.out.println(" ----------------------------------------------------- ");
+  public UserDto showCreateUserMenuAndReturnUser () {
+	System.out.println(" --------------------------------------- Add User  --------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
 
-	User user = new User();
+	UserDto user = new UserDto();
 
 	Scanner scanner = new Scanner(System.in);
-	System.out.print("Nick: ");
+	System.out.print(" - Nick: ");
 	user.setNick(scanner.nextLine());
-	System.out.print("Password: ");
+	System.out.print(" - Password: ");
 	user.setPassword(scanner.nextLine());
-	System.out.print("Name: ");
+	System.out.print(" - Name: ");
 	user.setName(scanner.nextLine());
-	System.out.print("2nd name: ");
+	System.out.print(" - 2nd name: ");
 	user.setSecondName(scanner.nextLine());
+	user.setAdmin(false);
+	user.setActive(true);
+	user.setJoiningDate(LocalDate.now());
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println();
 
 	return user;
+  }
+
+  public String showDeleteUserMenuAndReturnUser(){
+	System.out.println(" ------------------------------------- Delete User  -------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+
+	String userID;
+
+	Scanner scanner = new Scanner(System.in);
+	System.out.print(" - Provide ID: ");
+	userID = scanner.nextLine();
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println();
+
+	return userID;
   }
 
   //It prints all users
@@ -180,7 +200,17 @@ public class ViewConsole implements View {
 	System.out.print(" - Press " + ContinueScreenOption.CONTINUE.label + " to continue: ");
 	Scanner scanner = new Scanner(System.in);
 	option = scanner.nextLine();
+	System.out.println();
 	return ContinueScreenOption.valueOfLabel(option);
+  }
+
+  public ExitScreenOption printExit(){
+	String option;
+	System.out.print(" - Press " + ExitScreenOption.EXIT.label + " to exit: ");
+	Scanner scanner = new Scanner(System.in);
+	option = scanner.nextLine();
+	System.out.println();
+	return ExitScreenOption.valueOfLabel(option);
   }
 
   // Error msgs
@@ -188,13 +218,13 @@ public class ViewConsole implements View {
   public void displayLoginErrorMsg (int errorCode) {
 	switch (errorCode) {
 	  case 1:
-		System.out.println("User does not exist");
+		System.out.println(" - User does not exist");
 		break;
 	  case 2:
-		System.out.println("Incorrect password");
+		System.out.println(" - Incorrect password");
 		break;
 	  default:
-		System.out.println("Unknown error");
+		System.out.println(" - Unknown error");
 	}
   }
 
@@ -202,14 +232,33 @@ public class ViewConsole implements View {
   public void displayCreateUserErrorMsg (int errorCode) {
 	switch (errorCode) {
 	  case 1:
-		System.out.println("Incorrect nick");
+		System.out.println();
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Incorrect nick");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
 		break;
 	  case 2:
-		System.out.println("Incorrect password");
+		System.out.println();
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Incorrect password");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
 		break;
 	  default:
-		System.out.println("Unknown error");
+		System.out.println();
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Unknown error");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
 	}
+  }
+
+  public void displayCreateUserMsg (UserDto user) {
+	System.out.println(" ------------------------------------- !! SUCCESS !! ------------------------------------- ");
+	System.out.println(" - User: " + user.getNick() + " | " + user.getName() + " | " + user.getSecondName() + " created");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println();
   }
 
   @Override
