@@ -1,9 +1,9 @@
-package pl.sdacademy.library.view;
+package pl.sdacademy.library.view.ScreenOptions;
 
 public enum ExitScreenOption {
   EXIT("X");
 
-  String label;
+  public String label;
 
   ExitScreenOption(String label){
 	this.label = label;

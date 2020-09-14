@@ -8,7 +8,8 @@ import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
-import pl.sdacademy.library.view.ContinueScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 import pl.sdacademy.library.view.View;
 import pl.sdacademy.library.view.ViewConsole;
 
@@ -24,44 +25,40 @@ public class Controller {
 
   public Controller () {
 	view = new ViewConsole();
-	model = new DataAccessorImpl();
-	newModel = new ModelImpl();
+	model = new DataAccessorImpl(); // stara i zła implementacja
+	newModel = new ModelImpl(); // zmigruj na tą implemetację
   }
   // ------------- START -------------
   //Starting Point. Welcome menu
   public void start () {
-	String option;
+	WelcomeMenuScreenOption option;
 	do {
 	  option = view.showWelcomeMenuAndReturnSelectedPosition();
-	  switch (option) {
-		case "L":
-		case "l":
-		  handleLogInOption();
-		  break;
-		case "C":
-		case "c":
-		  handleCreateUserOptionFromWelcomeVIew();
-		  break;
+	  if (option != null) {
+		switch (option) {
+		  case LOG_IN:
+			handleLogInOption();
+			break;
+		  case CREATE_USER:
+			handleCreateUserOptionFromWelcomeVIew();
+			break;
+		}
 	  }
-	} while (
-		(!("X".equalsIgnoreCase(option)))
-			&& (!("L".equalsIgnoreCase(option)))
-			&& (!("C".equalsIgnoreCase(option)))
-	);
+	} while (option != WelcomeMenuScreenOption.EXIT	);
   }
 
   // ------------- INIT -------------
   //It creates default user
   public void init () {
-	if (model.getUserDao().findByNick("ADMIN") == null) {
-	  User user = new User();
+	if (newModel.getUserByNick("ADMIN") == null) {
+	  UserDto user = new UserDto();
 	  user.setNick("ADMIN");
 	  user.setPassword("ADMIN");
 	  user.setAdmin(true);
 	  user.setActive(true);
 	  user.setJoiningDate(LocalDate.now());
 
-	  model.getUserDao().save(user);
+	  newModel.addNewUser(user);
 	}
   }
 

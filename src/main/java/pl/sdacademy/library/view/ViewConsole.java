@@ -1,30 +1,42 @@
 package pl.sdacademy.library.view;
-
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.model.utils.Console;
+import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.ExitScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 
 //TODO: enum dla menu
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
 
 public class ViewConsole implements View {
   // It defines Welcome Menu view
   @Override
-  public String showWelcomeMenuAndReturnSelectedPosition () {
-	System.out.println(" --------------- LibrarY Welcome Menu  --------------- ");
-	System.out.println(" ----------------------------------------------------- ");
-	System.out.println(" ----------- [L] Log In | [C] Create User ------------ ");
-	System.out.println(" ------------------- Make a choice ------------------- ");
-	System.out.println(" -------------------- Or [X] eXit -------------------- ");
-	System.out.print(" -->:");
+  public WelcomeMenuScreenOption showWelcomeMenuAndReturnSelectedPosition () {
+
+    String result;
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+    System.out.println(" ---------------------------------- Library Welcome Menu --------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" ------------------------ ["
+		+ WelcomeMenuScreenOption.LOG_IN.label
+		+ "] Log In | ["
+		+ WelcomeMenuScreenOption.CREATE_USER.label
+		+ "] Create User | ["
+		+ WelcomeMenuScreenOption.EXIT.label
+		+ "] Exit ------------------------ ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.print(" : ");
 
 	Scanner scanner = new Scanner(System.in);
-	return scanner.nextLine();
+	result = scanner.nextLine();
+	System.out.println();
+
+	return WelcomeMenuScreenOption.valueOfLabel(result);
   }
 
   // It defines Log In Menu view

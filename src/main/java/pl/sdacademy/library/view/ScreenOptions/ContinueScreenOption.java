@@ -1,9 +1,9 @@
-package pl.sdacademy.library.view;
+package pl.sdacademy.library.view.ScreenOptions;
 
 public enum ContinueScreenOption {
   CONTINUE("C");
 
-  String label;
+  public String label;
 
   ContinueScreenOption(String label){
     this.label = label;

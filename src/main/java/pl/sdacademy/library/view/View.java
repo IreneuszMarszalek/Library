@@ -4,11 +4,13 @@ import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
+import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 
 import java.util.List;
 
 public interface View {
-  String showWelcomeMenuAndReturnSelectedPosition();
+  WelcomeMenuScreenOption showWelcomeMenuAndReturnSelectedPosition();
   User showLogInMenuAndReturnResult();
   UserDto showCreateUserMenuAndReturnUser();
   String showDeleteUserMenuAndReturnUser();
