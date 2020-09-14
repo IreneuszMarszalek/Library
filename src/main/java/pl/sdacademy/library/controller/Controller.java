@@ -27,8 +27,8 @@ public class Controller {
 	model = new DataAccessorImpl();
 	newModel = new ModelImpl();
   }
-
-  //Starting Point
+  // ------------- START -------------
+  //Starting Point. Welcome menu
   public void start () {
 	String option;
 	do {
@@ -40,8 +40,7 @@ public class Controller {
 		  break;
 		case "C":
 		case "c":
-		  handleCreateUserOption();
-		  handleMainMenuOption();
+		  handleCreateUserOptionFromWelcomeVIew();
 		  break;
 	  }
 	} while (
@@ -51,6 +50,7 @@ public class Controller {
 	);
   }
 
+  // ------------- INIT -------------
   //It creates default user
   public void init () {
 	if (model.getUserDao().findByNick("ADMIN") == null) {
@@ -65,6 +65,7 @@ public class Controller {
 	}
   }
 
+  // ------------- VIEWS DEFINITION -------------
   // Main Menu View
   private void handleMainMenuOption () {
 	String option;
@@ -135,7 +136,7 @@ public class Controller {
 		  break;
 		case "U":
 		case "u":
-		  handleAddUserOption();
+		  handleCreateUserOptionFromActionsMenu();
 		  break;
 		case "O":
 		case "o":
@@ -170,6 +171,8 @@ public class Controller {
 	);
   }
 
+
+  // ------------- MENU OPTIONS -------------
   //Login
   private void handleLogInOption () {
 	User user = view.showLogInMenuAndReturnResult();
@@ -202,46 +205,40 @@ public class Controller {
 	}
   }
 
-  //It creates user. Corrected !
-  private void handleCreateUserOption () {
+  //It creates user from Welcome menu. Corrected !
+  private void handleCreateUserOptionFromWelcomeVIew () {
 	UserDto user = view.showCreateUserMenuAndReturnUser();
-	String nick = user.getNick();
-	String password = user.getPassword();
 
-	if (nick == null) {
-	  view.displayCreateUserErrorMsg(1);
-	  handleActionsOption();
-	} else {
-	  if (password == null) {
-		view.displayCreateUserErrorMsg(2);
-		handleActionsOption();
-	  } else {
-		if (newModel.getUserByNick(nick) != null) {
-		  view.displayCreateUserErrorMsg(1);
-		  handleActionsOption();
-		} else {
-		  newModel.addNewUser(user);
-		  view.displayCreateUserMsg(user);
-		}
-	  }
+	if(checkIfUserCanBeCreated(user)){
+	  view.displayCreateUserMsg(user);
+	  newModel.addNewUser(user);
+	  handleMainMenuOption();
 	}
+	else {
+	  start ();
+	}
+  }
+
+  //It creates user from action menu. Corrected !
+  private void handleCreateUserOptionFromActionsMenu () {
+	UserDto user = view.showCreateUserMenuAndReturnUser();
+
+	if(checkIfUserCanBeCreated(user)){
+	  view.displayCreateUserMsg(user);
+	  newModel.addNewUser(user);
+	}
+	handleActionsOption();
   }
 
   //It deletes user. Corrected !
   private void handleDeleteUserOption(){
     String userIdStr = view.showDeleteUserMenuAndReturnUser();
-    Long userId;
-	if(!(userIdStr.matches("\\d*"))){
-	  view.displayDeleteUserErrorMsg(1);
-	  handleActionsOption();
+    Long userId = checkIfUserCanBeDeleted(userIdStr);
+
+	if (userId!=-1){
+	  view.displayDeleteUserMsg(newModel.getUser(userId));
+	  newModel.deleteUser(newModel.getUser(userId));
 	}else{
-	  userId = Long.parseLong(userIdStr);
-	  if (newModel.getUser(userId) == null){
-		view.displayDeleteUserErrorMsg(2);
-	  }else{
-		view.displayDeleteUserMsg(newModel.getUser(userId));
-	    newModel.deleteUser(newModel.getUser(userId));
-	  }
 	  handleActionsOption();
 	}
   }
@@ -256,12 +253,6 @@ public class Controller {
 	}while(option != ContinueScreenOption.CONTINUE);
 
 	handleReportsOption();
-  }
-
-  //It creates user from action menu
-  private void handleAddUserOption () {
-	handleCreateUserOption();
-	handleActionsOption();
   }
 
   //It creates Author;
@@ -320,6 +311,7 @@ public class Controller {
 	handleActionsOption();
   }
 
+  //Display users list
   private void handleBooksReportOption () {
 	model.
 		getBookDao()
@@ -336,5 +328,50 @@ public class Controller {
   }
 
   private void handleBorrowBook () {
+  }
+
+  // ------------- DATA VALIDATIONS -------------
+  //Check if User can be deleted
+  private long checkIfUserCanBeDeleted(String userIdStr){
+
+    Long userId;
+
+    if(!(userIdStr.matches("\\d*"))){
+	  view.displayDeleteUserErrorMsg(1);
+	  return -1;
+	}else{
+	  userId = Long.parseLong(userIdStr);
+	  if (newModel.getUser(userId) == null){
+		view.displayDeleteUserErrorMsg(2);
+		return -1;
+	  }else{
+	    //TODO: Sprawdz czy uzytkownik ma historie
+		return userId;
+	  }
+	}
+  }
+
+  //Check if User can be created
+  private boolean checkIfUserCanBeCreated(UserDto user){
+
+	String nick = user.getNick();
+	String password = user.getPassword();
+
+	if (nick == null) {
+	  view.displayCreateUserErrorMsg(1);
+	  return false;
+	} else {
+	  if (password == null) {
+		view.displayCreateUserErrorMsg(2);
+		return false;
+	  } else {
+		if (newModel.getUserByNick(nick) != null) {
+		  view.displayCreateUserErrorMsg(1);
+		  return false;
+		} else {
+		  return true;
+		}
+	  }
+	}
   }
 }

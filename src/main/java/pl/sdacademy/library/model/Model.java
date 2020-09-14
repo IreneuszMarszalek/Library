@@ -11,4 +11,5 @@ public interface Model {
   void addNewUser(UserDto userDto);
   UserDto getUserByNick(String nick);
   void deleteUser(UserDto userDto);
+  boolean checkIfUserHasHistory(UserDto user);
 }

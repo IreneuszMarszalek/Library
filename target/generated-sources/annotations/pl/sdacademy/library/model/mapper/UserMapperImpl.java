@@ -11,7 +11,7 @@ import pl.sdacademy.library.model.entity.User;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-09-12T18:08:36+0200",
+    date = "2020-09-14T20:16:27+0200",
     comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.8 (JetBrains s.r.o.)"
 )
 public class UserMapperImpl implements UserMapper {

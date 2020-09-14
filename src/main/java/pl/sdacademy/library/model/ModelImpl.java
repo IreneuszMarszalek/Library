@@ -44,4 +44,10 @@ public class ModelImpl implements Model {
     User user = mapper.map(userDto);
     userDao.delete(user.getId());
   }
+
+  //TODO: Po zrobieniu booturnover dto sprawdz czy uzytkonwnik ma historie
+  @Override
+  public boolean checkIfUserHasHistory (UserDto user) {
+    return false;
+  }
 }
