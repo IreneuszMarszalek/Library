@@ -9,6 +9,7 @@ import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.MainMenuScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.ReportsMenuScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 import pl.sdacademy.library.view.View;
 import pl.sdacademy.library.view.ViewConsole;
@@ -60,7 +61,7 @@ public class Controller {
   }
 
   // ------------- VIEWS DEFINITION -------------
-  // Main Menu View
+  // Main Menu View. Corrected!
   private void handleMainMenuOption () {
 	MainMenuScreenOption option;
 	do {
@@ -75,40 +76,21 @@ public class Controller {
 	} while (option==null);
   }
 
-  //Reports view
+  //Reports view. Corrected!
   private void handleReportsOption () {
-	String option;
+	ReportsMenuScreenOption option;
 	do {
 	  option = view.showReportMenuAndReturnSelectedPosition();
-	  switch (option) {
-		case "U":
-		case "u":
-		  handleUsersReportOption();
-		  break;
-		case "B":
-		case "b":
-		  handleBooksReportOption();
-		  break;
-		case "O":
-		case "o":
-		  handleBorrowedReportOption();
-		  break;
-		case "A":
-		case "a":
-		  handleAuthorReportOption();
-		  break;
-		case "C":
-		case "c":
-		  handleMainMenuOption();
-		  break;
+	  if(option!=null) {
+		switch (option) {
+		  case USERS: handleUsersReportOption(); break;
+		  case BOOKS: handleBooksReportOption(); break;
+		  case BORROWED: handleBorrowedReportOption(); break;
+		  case AUTHORS: handleAuthorReportOption(); break;
+		  case BACK: handleMainMenuOption(); break;
+		}
 	  }
-	} while (
-		(!("U".equalsIgnoreCase(option)))
-			&& (!("B".equalsIgnoreCase(option)))
-			&& (!("O".equalsIgnoreCase(option)))
-			&& (!("A".equalsIgnoreCase(option)))
-			&& (!("C".equalsIgnoreCase(option)))
-	);
+	} while (option==null);
   }
 
   //Actions view

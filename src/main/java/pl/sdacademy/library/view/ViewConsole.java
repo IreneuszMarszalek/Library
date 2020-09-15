@@ -3,10 +3,7 @@ import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.utils.Console;
-import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
-import pl.sdacademy.library.view.ScreenOptions.ExitScreenOption;
-import pl.sdacademy.library.view.ScreenOptions.MainMenuScreenOption;
-import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.*;
 
 //TODO: enum dla menu
 import java.time.LocalDate;
@@ -164,19 +161,31 @@ public class ViewConsole implements View {
 	return scanner.nextLine();
   }
 
-  // It defines Reports Menu view
+  // It defines Reports Menu view. Corrected!
   @Override
-  public String showReportMenuAndReturnSelectedPosition () {
-	System.out.println(" --------------- LibrarY Reports Menu  --------------- ");
-	System.out.println(" ----------------------------------------------------- ");
-	System.out.println(" - [U] Users | [B] Books | [O] bOrrowed | [A] Author -");
-	System.out.println(" ------------------- Make a choice ------------------- ");
-	System.out.println(" -------------------- Or [C] baCk -------------------- ");
-	System.out.print(" -->:");
+  public ReportsMenuScreenOption showReportMenuAndReturnSelectedPosition () {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" ------------------------------------- Reports menu -------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" -------------- ["
+		+ ReportsMenuScreenOption.USERS.label
+		+ "] Users | ["
+		+ ReportsMenuScreenOption.BOOKS.label
+		+ "] Books | ["
+		+ ReportsMenuScreenOption.BORROWED.label
+		+ "] bOrrowed | ["
+		+ ReportsMenuScreenOption.AUTHORS.label
+		+ "] Author | ["
+		+ ReportsMenuScreenOption.BACK.label
+		+ "] baCk ------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.print(" : ");
 
 	Scanner scanner = new Scanner(System.in);
+	ReportsMenuScreenOption result = ReportsMenuScreenOption.valueOfLabel(scanner.nextLine());
+	System.out.println();
 
-	return scanner.nextLine();
+	return result;
   }
 
   //It defines Create Author Menu view

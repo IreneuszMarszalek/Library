@@ -3,9 +3,9 @@ package pl.sdacademy.library.view;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
-import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.MainMenuScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.ReportsMenuScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface View {
   String showDeleteUserMenuAndReturnUser();
   MainMenuScreenOption showMainMenuAndReturnSelectedPositions();
   String showActionMenuAndReturnSelectedPosition();
-  String showReportMenuAndReturnSelectedPosition();
+  ReportsMenuScreenOption showReportMenuAndReturnSelectedPosition();
   Author showCreateAuthorMenuAndReturnAuthor();
   Book showCreateBookMenuAndReturnBook();
 
