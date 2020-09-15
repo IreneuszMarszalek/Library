@@ -7,8 +7,8 @@ import pl.sdacademy.library.model.ModelImpl;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
-import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.MainMenuScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 import pl.sdacademy.library.view.View;
 import pl.sdacademy.library.view.ViewConsole;
@@ -29,29 +29,26 @@ public class Controller {
 	newModel = new ModelImpl(); // zmigruj na tą implemetację
   }
   // ------------- START -------------
-  //Starting Point. Welcome menu
+  //Starting Point. Welcome menu. Corrected !
   public void start () {
 	WelcomeMenuScreenOption option;
 	do {
 	  option = view.showWelcomeMenuAndReturnSelectedPosition();
 	  if (option != null) {
 		switch (option) {
-		  case LOG_IN:
-			handleLogInOption();
-			break;
-		  case CREATE_USER:
-			handleCreateUserOptionFromWelcomeVIew();
-			break;
+		  case LOG_IN: handleLogInOption(); break;
+		  case CREATE_USER: handleCreateUserOptionFromWelcomeVIew(); break;
 		}
 	  }
-	} while (option != WelcomeMenuScreenOption.EXIT	);
+	} while (option == null);
   }
 
   // ------------- INIT -------------
-  //It creates default user
+  //It creates default user, Corrected !
   public void init () {
 	if (newModel.getUserByNick("ADMIN") == null) {
 	  UserDto user = new UserDto();
+
 	  user.setNick("ADMIN");
 	  user.setPassword("ADMIN");
 	  user.setAdmin(true);
@@ -65,24 +62,17 @@ public class Controller {
   // ------------- VIEWS DEFINITION -------------
   // Main Menu View
   private void handleMainMenuOption () {
-	String option;
+	MainMenuScreenOption option;
 	do {
 	  option = view.showMainMenuAndReturnSelectedPositions();
-	  switch (option) {
-		case "A":
-		case "a":
-		  handleActionsOption();
-		  break;
-		case "R":
-		case "r":
-		  handleReportsOption();
-		  break;
+	  if(option!=null) {
+		switch (option) {
+		  case ACTIONS: handleActionsOption(); break;
+		  case REPORTS: handleReportsOption(); break;
+		  case SETTINGS: handleSettingsOption();break;
+		}
 	  }
-	} while (
-		(!("X".equalsIgnoreCase(option)))
-			&& (!("A".equalsIgnoreCase(option)))
-			&& (!("R".equalsIgnoreCase(option)))
-	);
+	} while (option==null);
   }
 
   //Reports view
@@ -168,37 +158,20 @@ public class Controller {
 	);
   }
 
+  private void handleSettingsOption () {
+  }
+
 
   // ------------- MENU OPTIONS -------------
-  //Login
+  //Login. Corrected
   private void handleLogInOption () {
-	User user = view.showLogInMenuAndReturnResult();
+	UserDto user = view.showLogInMenuAndReturnResult();
 
-	String nick = user.getNick();
-	String password = user.getPassword();
-
-	if (nick == null) {
-	  view.displayLoginErrorMsg(1);
+	if(checkIfUserCanLogIn(user)){
+	  view.displayLoginMsg(user);
+	  handleMainMenuOption();
+	}else{
 	  start();
-	} else {
-	  if (password == null) {
-		view.displayLoginErrorMsg(2);
-		start();
-	  } else {
-		if (model.getUserDao().findByNick(nick) == null) {
-		  view.displayLoginErrorMsg(1);
-		  start();
-		} else {
-		  Long foundUserId = model.getUserDao().findByNick(nick).getId();
-		  String foundPassword = model.getUserDao().findByID(foundUserId).getPassword();
-		  if (password.equals(foundPassword)) {
-			handleMainMenuOption();
-		  } else {
-			view.displayLoginErrorMsg(2);
-			start();
-		  }
-		}
-	  }
 	}
   }
 
@@ -367,6 +340,35 @@ public class Controller {
 		  return false;
 		} else {
 		  return true;
+		}
+	  }
+	}
+  }
+
+  private boolean checkIfUserCanLogIn(UserDto user){
+	String nick = user.getNick();
+	String password = user.getPassword();
+
+	if (nick == null) {
+	  view.displayLoginErrorMsg(1);
+	  return false;
+	} else {
+	  if (password == null) {
+		view.displayLoginErrorMsg(2);
+		return false;
+	  } else {
+		if (newModel.getUserByNick(nick) == null) {
+		  view.displayLoginErrorMsg(1);
+		  return false;
+		} else {
+		  Long foundUserId = newModel.getUserByNick(nick).getId();
+		  String foundPassword = newModel.getUser(foundUserId).getPassword();
+		  if (password.equals(foundPassword)) {
+			return true;
+		  } else {
+			view.displayLoginErrorMsg(2);
+			return false;
+		  }
 		}
 	  }
 	}

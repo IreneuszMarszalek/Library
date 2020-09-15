@@ -2,10 +2,10 @@ package pl.sdacademy.library.view;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
-import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.model.utils.Console;
 import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.ExitScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.MainMenuScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 
 //TODO: enum dla menu
@@ -41,18 +41,19 @@ public class ViewConsole implements View {
 
   // It defines Log In Menu view
   @Override
-  public User showLogInMenuAndReturnResult () {
-	Console.clearScreen();
-	System.out.println(" -------------------- Log In Menu  ------------------- ");
-	System.out.println(" ----------------------------------------------------- ");
+  public UserDto showLogInMenuAndReturnResult () {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" --------------------------------------- Login Menu -------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
 
-	User user = new User();
+	UserDto user = new UserDto();
 
 	Scanner scanner = new Scanner(System.in);
-	System.out.print("Nick: ");
+	System.out.print(" - Nick: ");
 	user.setNick(scanner.nextLine());
-	System.out.print("Password: ");
+	System.out.print(" - Password: ");
 	user.setPassword(scanner.nextLine());
+	System.out.println();
 
 	return user;
   }
@@ -60,6 +61,7 @@ public class ViewConsole implements View {
   // It defines Create User Menu view
   @Override
   public UserDto showCreateUserMenuAndReturnUser () {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
 	System.out.println(" --------------------------------------- Add User  --------------------------------------- ");
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
 
@@ -83,6 +85,7 @@ public class ViewConsole implements View {
   }
 
   public String showDeleteUserMenuAndReturnUser(){
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
 	System.out.println(" ------------------------------------- Delete User  -------------------------------------- ");
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
 
@@ -120,19 +123,29 @@ public class ViewConsole implements View {
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
   }
 
-  // It defines Main Menu view
+  // It defines Main Menu view.Corrected !
   @Override
-  public String showMainMenuAndReturnSelectedPositions () {
-	System.out.println(" ----------------- LibrarY Main Menu  ---------------- ");
-	System.out.println(" ----------------------------------------------------- ");
-	System.out.println(" ------------- [A] Actions | [R] Reports ------------- ");
-	System.out.println(" ------------------- Make a choice ------------------- ");
-	System.out.println(" -------------------- Or [X] eXit -------------------- ");
-	System.out.print(" -->:");
+  public MainMenuScreenOption showMainMenuAndReturnSelectedPositions () {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" --------------------------------------- Main menu --------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" ------------------ ["
+		+ MainMenuScreenOption.ACTIONS.label
+		+ "] Actions | ["
+		+ MainMenuScreenOption.REPORTS.label
+		+ "] Reports | ["
+		+ MainMenuScreenOption.SETTINGS.label
+		+ "] Settings | ["
+		+ MainMenuScreenOption.EXIT.label
+		+ "] eXit ------------------ ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.print(" : ");
 
 	Scanner scanner = new Scanner(System.in);
+	MainMenuScreenOption result = MainMenuScreenOption.valueOfLabel(scanner.nextLine());
+	System.out.println();
 
-	return scanner.nextLine();
+	return result;
   }
 
   // It defines Actions Menu view
@@ -228,13 +241,22 @@ public class ViewConsole implements View {
   public void displayLoginErrorMsg (int errorCode) {
 	switch (errorCode) {
 	  case 1:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
 		System.out.println(" - User does not exist");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
 		break;
 	  case 2:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
 		System.out.println(" - Incorrect password");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
 		break;
 	  default:
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
 		System.out.println(" - Unknown error");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
 	}
   }
 
@@ -294,6 +316,14 @@ public class ViewConsole implements View {
   public void displayDeleteUserMsg (UserDto user) {
 	System.out.println(" ------------------------------------- !! SUCCESS !! ------------------------------------- ");
 	System.out.println(" - User: " + user.getNick() + " | " + user.getName() + " | " + user.getSecondName() + " deleted");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println();
+  }
+
+  @Override
+  public void displayLoginMsg (UserDto user) {
+	System.out.println(" ------------------------------------- !! SUCCESS !! ------------------------------------- ");
+	System.out.println(" - Welcome: " + user.getNick() + " | " + user.getName() + " | " + user.getSecondName());
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
 	System.out.println();
   }

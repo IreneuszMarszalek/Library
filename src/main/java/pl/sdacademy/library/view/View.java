@@ -5,16 +5,17 @@ import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.MainMenuScreenOption;
 import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
 
 import java.util.List;
 
 public interface View {
   WelcomeMenuScreenOption showWelcomeMenuAndReturnSelectedPosition();
-  User showLogInMenuAndReturnResult();
+  UserDto showLogInMenuAndReturnResult();
   UserDto showCreateUserMenuAndReturnUser();
   String showDeleteUserMenuAndReturnUser();
-  String showMainMenuAndReturnSelectedPositions();
+  MainMenuScreenOption showMainMenuAndReturnSelectedPositions();
   String showActionMenuAndReturnSelectedPosition();
   String showReportMenuAndReturnSelectedPosition();
   Author showCreateAuthorMenuAndReturnAuthor();
@@ -30,7 +31,8 @@ public interface View {
   void displayDeleteUserErrorMsg(int errorCode);
 
   void displayCreateUserMsg(UserDto user);
-  void displayDeleteUserMsg(UserDto userDto);
+  void displayDeleteUserMsg(UserDto user);
+  void displayLoginMsg(UserDto user);
 
   void clearScreen();
 }
