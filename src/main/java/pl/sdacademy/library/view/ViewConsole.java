@@ -1,4 +1,6 @@
 package pl.sdacademy.library.view;
+import pl.sdacademy.library.model.dao.AuthorDao;
+import pl.sdacademy.library.model.dto.AuthorDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ViewConsole implements View {
-  // It defines Welcome Menu view
+  // It defines Welcome Menu view. Corrected !
   @Override
   public WelcomeMenuScreenOption showWelcomeMenuAndReturnSelectedPosition () {
 
@@ -36,7 +38,7 @@ public class ViewConsole implements View {
 	return WelcomeMenuScreenOption.valueOfLabel(result);
   }
 
-  // It defines Log In Menu view
+  // It defines Log In Menu view. Corrected !
   @Override
   public UserDto showLogInMenuAndReturnResult () {
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
@@ -55,7 +57,7 @@ public class ViewConsole implements View {
 	return user;
   }
 
-  // It defines Create User Menu view
+  // It defines Create User Menu view. Corrected !
   @Override
   public UserDto showCreateUserMenuAndReturnUser () {
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
@@ -76,11 +78,11 @@ public class ViewConsole implements View {
 	user.setAdmin(false);
 	user.setActive(true);
 	user.setJoiningDate(LocalDate.now());
-	System.out.println(" ----------------------------------------------------------------------------------------- ");
 
 	return user;
   }
-
+  // It defines Delete User Menu view. Corrected !
+  @Override
   public String showDeleteUserMenuAndReturnUser(){
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
 	System.out.println(" ------------------------------------- Delete User  -------------------------------------- ");
@@ -91,14 +93,14 @@ public class ViewConsole implements View {
 	Scanner scanner = new Scanner(System.in);
 	System.out.print(" - Provide ID: ");
 	userID = scanner.nextLine();
-	System.out.println(" ----------------------------------------------------------------------------------------- ");
 
 	return userID;
   }
 
-  //It prints all users
+  //It prints all users. Corrected !
   public void printUserList (List<UserDto> userList) {
-	System.out.println(" --------------------------------------- User List  -------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" -------------------------------------- Users List  -------------------------------------- ");
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
 	System.out.println(" - ID | Nick | Name | Second Name | Joining Date ----------------------------------------- ");
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
@@ -151,7 +153,7 @@ public class ViewConsole implements View {
 	System.out.println(" --------------- LibrarY Actions Menu  --------------- ");
 	System.out.println(" ----------------------------------------------------- ");
 	System.out.println(" - [B] Book | [U] User | [O] bOrrow | [G] Give back --");
-	System.out.println(" - [A] Author ----------------------------------------");
+	System.out.println(" - [A] Author | [D] Delete User [E] dElete author ----");
 	System.out.println(" ------------------- Make a choice ------------------- ");
 	System.out.println(" -------------------- Or [C] baCk -------------------- ");
 	System.out.print(" -->:");
@@ -190,20 +192,56 @@ public class ViewConsole implements View {
 
   //It defines Create Author Menu view
   @Override
-  public Author showCreateAuthorMenuAndReturnAuthor () {
-	Console.clearScreen();
-	System.out.println(" ----------------- Create Author Menu  --------------- ");
-	System.out.println(" ----------------------------------------------------- ");
+  public AuthorDto showCreateAuthorMenuAndReturnAuthor () {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" ------------------------------------ Create Author  ------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
 
-	Author author = new Author();
+	AuthorDto author = new AuthorDto();
 
 	Scanner scanner = new Scanner(System.in);
-	System.out.print("Name: ");
+	System.out.print(" - Name: ");
 	author.setName(scanner.nextLine());
-	System.out.print("2nd name: ");
+	System.out.print(" - 2nd name: ");
 	author.setSecondName(scanner.nextLine());
 
 	return author;
+  }
+
+  @Override
+  public String showDeleteAuthorMenuAndReturnUser () {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" ------------------------------------ Delete author  ------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+
+	String authorID;
+
+	Scanner scanner = new Scanner(System.in);
+	System.out.print(" - Provide ID: ");
+	authorID = scanner.nextLine();
+
+	return authorID;
+  }
+
+  //It prints all authors. Corrected !
+  public void printAuthorList (List<AuthorDto> authorList) {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" ------------------------------------- Authors List  ------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" - ID | Name | Second Name | ------------------------------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	authorList
+		.stream()
+		.forEach(authorDto -> System.out.println(
+			" - "
+				+ authorDto.getId()
+				+ " | "
+				+ authorDto.getName()
+				+ " | "
+				+ authorDto.getSecondName()
+			)
+		);
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
   }
 
   @Override
@@ -315,6 +353,29 @@ public class ViewConsole implements View {
 
   }
 
+  public void displayDeleteAuthorErrorMsg(int errorCode){
+	switch (errorCode) {
+	  case 1:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Not numeric provided");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
+		break;
+	  case 2:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Wrong author ID provided");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
+		break;
+	  default:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Unknown error");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
+	}
+
+  }
+
   public void displayCreateUserMsg (UserDto user) {
 	System.out.println(" ------------------------------------- !! SUCCESS !! ------------------------------------- ");
 	System.out.println(" - User: " + user.getNick() + " | " + user.getName() + " | " + user.getSecondName() + " created");
@@ -341,14 +402,28 @@ public class ViewConsole implements View {
   public void displayCreateAuthorErrorMsg (int errorCode) {
 	switch (errorCode) {
 	  case 1:
-		System.out.println("Incorrect name");
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Incorrect name");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
 		break;
 	  case 2:
-		System.out.println("Incorrect 2nd name");
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Incorrect second name");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
 		break;
 	  default:
-		System.out.println("Unknown error");
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Unknown error");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
 	}
+  }
+
+  public void displayDeleteAuthorMsg (AuthorDto author) {
+	System.out.println(" ------------------------------------- !! SUCCESS !! ------------------------------------- ");
+	System.out.println(" - Author: " +  " | " + author.getName() + " | " + author.getSecondName() + " deleted");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println();
   }
 
   public void displayCreateBookErrorMsg (int errorCode) {

@@ -1,22 +1,13 @@
-package pl.sdacademy.library.model.entity;
+package pl.sdacademy.library.model.dto;
 
-import javax.persistence.*;
+import pl.sdacademy.library.model.entity.Book;
+
 import java.util.Set;
 
-@Entity
-@Table(name="Author")
-
-//TODO: dodaj DTO.
-//TODO: korzystamy z dao ale zwracamy dto.
-public class Author {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+public class AuthorDto {
   private long id;
   private String name;
   private String secondName;
-
-  @OneToMany(mappedBy = "author")
-  private Set<Book> books;
 
   public long getId () {
     return id;
@@ -49,4 +40,6 @@ public class Author {
   public void setBooks (Set<Book> books) {
     this.books = books;
   }
+
+  private Set<Book> books;
 }
