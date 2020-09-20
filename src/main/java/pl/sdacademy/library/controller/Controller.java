@@ -5,6 +5,7 @@ import pl.sdacademy.library.model.DataAccessorImpl;
 import pl.sdacademy.library.model.Model;
 import pl.sdacademy.library.model.ModelImpl;
 import pl.sdacademy.library.model.dto.AuthorDto;
+import pl.sdacademy.library.model.dto.BookDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
@@ -238,7 +239,7 @@ public class Controller {
 	AuthorDto author = view.showCreateAuthorMenuAndReturnAuthor();
 
 	if (checkIfAuthorCanBeCreated(author)) {
-	  newModel.addNewAuthor(author);
+	  newModel.addNewAuthorDto(author);
 	}
 	handleActionsOption();
   }
@@ -250,8 +251,8 @@ public class Controller {
 	Long authorId = checkIfAuthorCanBeDeleted(authorIdStr);
 
 	if (authorId != -1) {
-	  view.displayDeleteAuthorMsg(newModel.getAuthor(authorId));
-	  newModel.deleteAuthor(newModel.getAuthor(authorId));
+	  view.displayDeleteAuthorMsg(newModel.getAuthorDto(authorId));
+	  newModel.deleteAuthor(newModel.getAuthorDto(authorId));
 	}
 	handleActionsOption();
 
@@ -271,42 +272,39 @@ public class Controller {
 
   //It creates new book
   private void handleAddBookOption () {
-	Book book = view.showCreateBookMenuAndReturnBook();
-	if (book.getTitle() == null) {
-	  view.displayCreateBookErrorMsg(1);
-	} else {
-	  if (book.getAuthor() == null) {
-		view.displayCreateBookErrorMsg(2);
-	  } else {
-		List<Author> names = model
-			.getAuthorDao()
-			.findByName(book.getAuthor().getName());
-		List<Author> secondNames = names
-			.stream()
-			.filter(author -> author.getSecondName().equals(book.getAuthor().getSecondName()))
-			.collect(Collectors.toList());
+	BookDto book = view.showCreateBookMenuAndReturnBook();
 
-		if (names.size() >= 1) {
-		  if (secondNames.size() == 1) {
-			book.setAuthor(model.getAuthorDao().findByID(names.get(0).getId()));
-		  } else {
-			model.getAuthorDao().save(book.getAuthor());
-		  }
+	if(checkIfBookCanBeCreated(book)){
+	  List<AuthorDto> names =  newModel.getAuthorByName(book.getAuthor().getName());
+	  List<AuthorDto> secondNames = names
+		  .stream()
+		  .filter(author -> author.getSecondName().equals(book.getAuthor().getSecondName()))
+		  .collect(Collectors.toList());
+
+	  if (names.size() >= 1) {
+		if (secondNames.size() == 1) {
+		  book.setAuthor(newModel.getAuthor(names.get(0).getId()));
 		} else {
-		  model.getAuthorDao().save(book.getAuthor());
+		  newModel.addNewAuthor(book.getAuthor());
 		}
-		model.getBookDao().save(book);
+	  } else {
+		newModel.addNewAuthor(book.getAuthor());
 	  }
+	  view.displayCreateBookMsg(book);
+	  newModel.addNewBook(book);
 	}
 	handleActionsOption();
   }
 
-  //Display books list
+  //Displays books list. Corrected!
   private void handleBooksReportOption () {
-	model.
-		getBookDao()
-		.findAll()
-		.forEach(book -> System.out.println(book.getId() + " " + book.getTitle() + " " + book.getAuthor().getName() + " " + book.getAuthor().getSecondName()));
+	view.printBookList(newModel.getAllBooks());
+	ContinueScreenOption option;
+
+	do {
+	  option = view.printContinue();
+	} while (option != ContinueScreenOption.CONTINUE);
+
 	handleReportsOption();
   }
 
@@ -424,6 +422,20 @@ public class Controller {
 	  } else {
 		//TODO: Sprawdz czy uzytkownik ma przypisane książki
 		return authorId;
+	  }
+	}
+  }
+
+  private boolean checkIfBookCanBeCreated(BookDto book){
+	if (book.getTitle() == null) {
+	  view.displayCreateBookErrorMsg(1);
+	  return false;
+	} else {
+	  if (book.getAuthor() == null) {
+		view.displayCreateBookErrorMsg(2);
+		return false;
+	  } else {
+		return true;
 	  }
 	}
   }

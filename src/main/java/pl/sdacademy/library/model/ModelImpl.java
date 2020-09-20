@@ -1,14 +1,19 @@
 package pl.sdacademy.library.model;
 import org.mapstruct.factory.Mappers;
 import pl.sdacademy.library.model.dao.AuthorDao;
+import pl.sdacademy.library.model.dao.BookDao;
 import pl.sdacademy.library.model.dao.UserDao;
 import pl.sdacademy.library.model.daoimpl.AuthorDaoImpl;
+import pl.sdacademy.library.model.daoimpl.BookDaoImpl;
 import pl.sdacademy.library.model.daoimpl.UserDaoImpl;
 import pl.sdacademy.library.model.dto.AuthorDto;
+import pl.sdacademy.library.model.dto.BookDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
+import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.model.mapper.AuthorMapper;
+import pl.sdacademy.library.model.mapper.BookMapper;
 import pl.sdacademy.library.model.mapper.UserMapper;
 
 import java.util.List;
@@ -16,14 +21,18 @@ import java.util.List;
 public class ModelImpl implements Model {
   private UserDao userDao;
   private AuthorDao authorDao;
+  private BookDao bookDao;
   private UserMapper userMapper;
   private AuthorMapper authorMapper;
+  private BookMapper bookMapper;
 
   public ModelImpl(){
     userDao = new UserDaoImpl();
     authorDao = new AuthorDaoImpl();
+    bookDao = new BookDaoImpl();
     userMapper = Mappers.getMapper(UserMapper.class);
     authorMapper = Mappers.getMapper(AuthorMapper.class);
+    bookMapper = Mappers.getMapper(BookMapper.class);
   }
 
   @Override
@@ -67,13 +76,26 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public AuthorDto getAuthor (Long authorID) {
+  public AuthorDto getAuthorDto (Long authorID) {
     return authorMapper.map(authorDao.findByID(authorID));
   }
 
+  public Author getAuthor (Long authorID) {
+    return authorDao.findByID(authorID);
+  }
+
+  public List<AuthorDto> getAuthorByName(String name){
+    return authorMapper.map(authorDao.findByName(name));
+  }
+
   @Override
-  public void addNewAuthor (AuthorDto authorDto) {
+  public void addNewAuthorDto (AuthorDto authorDto) {
     Author author = authorMapper.map(authorDto);
+    authorDao.save(author);
+  }
+
+  @Override
+  public void addNewAuthor (Author author) {
     authorDao.save(author);
   }
 
@@ -87,5 +109,28 @@ public class ModelImpl implements Model {
   @Override
   public boolean checkIfAuthorHasBook (AuthorDto author) {
     return false;
+  }
+
+  @Override
+  public List<BookDto> getAllBooks () {
+    List<BookDto> result = bookMapper.map(bookDao.findAll());
+    return result;
+  }
+
+  @Override
+  public BookDto getBook (Long bookId) {
+    return bookMapper.map(bookDao.findByID(bookId));
+  }
+
+  @Override
+  public void addNewBook (BookDto bookDto) {
+    Book book = bookMapper.map(bookDto);
+    bookDao.save(book);
+  }
+
+  @Override
+  public void deleteBook (BookDto bookDto) {
+    Book book = bookMapper.map(bookDto);
+    bookDao.delete(book.getId());
   }
 }

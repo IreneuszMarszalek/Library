@@ -11,7 +11,7 @@ import pl.sdacademy.library.model.entity.Book;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-09-20T20:07:05+0200",
+    date = "2020-09-20T22:21:49+0200",
     comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.8 (JetBrains s.r.o.)"
 )
 public class AuthorMapperImpl implements AuthorMapper {
@@ -63,6 +63,20 @@ public class AuthorMapperImpl implements AuthorMapper {
         List<AuthorDto> list = new ArrayList<AuthorDto>( authorList.size() );
         for ( Author author : authorList ) {
             list.add( map( author ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Author> mapD2E(List<AuthorDto> authorDtoList) {
+        if ( authorDtoList == null ) {
+            return null;
+        }
+
+        List<Author> list = new ArrayList<Author>( authorDtoList.size() );
+        for ( AuthorDto authorDto : authorDtoList ) {
+            list.add( map( authorDto ) );
         }
 
         return list;

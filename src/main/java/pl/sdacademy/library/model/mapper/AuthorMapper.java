@@ -11,4 +11,5 @@ public interface AuthorMapper {
   Author map(AuthorDto authorDto);
   AuthorDto map(Author author);
   List<AuthorDto> map(List<Author> authorList);
+  List<Author> mapD2E(List<AuthorDto> authorDtoList);
 }

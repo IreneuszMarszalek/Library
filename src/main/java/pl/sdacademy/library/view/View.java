@@ -1,6 +1,7 @@
 package pl.sdacademy.library.view;
 
 import pl.sdacademy.library.model.dto.AuthorDto;
+import pl.sdacademy.library.model.dto.BookDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
@@ -20,11 +21,12 @@ public interface View {
   String showActionMenuAndReturnSelectedPosition();
   ReportsMenuScreenOption showReportMenuAndReturnSelectedPosition();
   AuthorDto showCreateAuthorMenuAndReturnAuthor();
-  Book showCreateBookMenuAndReturnBook();
+  BookDto showCreateBookMenuAndReturnBook();
   String showDeleteAuthorMenuAndReturnUser();
 
   void printUserList(List<UserDto> userList);
   void printAuthorList(List<AuthorDto> authorList);
+  void printBookList(List<BookDto> bookList);
   ContinueScreenOption printContinue();
 
   void displayLoginErrorMsg(int errorCode);
@@ -38,6 +40,7 @@ public interface View {
   void displayDeleteUserMsg(UserDto user);
   void displayLoginMsg(UserDto user);
   void displayDeleteAuthorMsg(AuthorDto author);
+  void displayCreateBookMsg(BookDto book);
 
   void clearScreen();
 }

@@ -1,11 +1,12 @@
-package pl.sdacademy.library.model.entity;
+package pl.sdacademy.library.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import pl.sdacademy.library.model.entity.Author;
+import pl.sdacademy.library.model.entity.BookTurnover;
 
-import javax.persistence.*;
 import java.util.Set;
 
 @Data
@@ -13,18 +14,9 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"author", "turnovers"})
 
-@Entity
-@Table(name="Book")
-public class Book {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+public class BookDto {
   private long id;
   private String title;
-
-  @ManyToOne
-  @JoinColumn(name = "author_id")
   private Author author;
-
-  @OneToMany(mappedBy = "book")
   private Set<BookTurnover> turnovers;
 }
