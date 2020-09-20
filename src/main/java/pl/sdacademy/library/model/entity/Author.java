@@ -2,17 +2,19 @@ package pl.sdacademy.library.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name="Author")
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"books"})
+
+@Entity
+@Table(name="Author")
 
 //TODO: dodaj DTO.
 //TODO: korzystamy z dao ale zwracamy dto.

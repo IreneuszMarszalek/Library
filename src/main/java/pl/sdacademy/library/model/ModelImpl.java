@@ -82,4 +82,10 @@ public class ModelImpl implements Model {
     Author author = authorMapper.map(authorDto);
     authorDao.delete(author.getId());
   }
+
+  //TODO: Po zrobieniu book dto sprawdz czy author ma ksiazke
+  @Override
+  public boolean checkIfAuthorHasBook (AuthorDto author) {
+    return false;
+  }
 }

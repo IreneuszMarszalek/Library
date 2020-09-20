@@ -18,4 +18,5 @@ public interface Model {
   AuthorDto getAuthor(Long authorID);
   void addNewAuthor(AuthorDto authorDto);
   void deleteAuthor(AuthorDto authorDto);
+  boolean checkIfAuthorHasBook(AuthorDto author); // TODO: Potrzbne do usuwania authora
 }

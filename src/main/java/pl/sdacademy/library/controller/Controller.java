@@ -243,6 +243,7 @@ public class Controller {
 	handleActionsOption();
   }
 
+  //It deletes Author. Corrected !
   private void handleDeleteAuthorOption(){
 	String authorIdStr = view.showDeleteAuthorMenuAndReturnUser();
 
@@ -300,7 +301,7 @@ public class Controller {
 	handleActionsOption();
   }
 
-  //Display users list
+  //Display books list
   private void handleBooksReportOption () {
 	model.
 		getBookDao()
