@@ -1,10 +1,8 @@
 package pl.sdacademy.library.view;
-import pl.sdacademy.library.model.dao.AuthorDao;
 import pl.sdacademy.library.model.dto.AuthorDto;
 import pl.sdacademy.library.model.dto.BookDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
-import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.utils.Console;
 import pl.sdacademy.library.view.ScreenOptions.*;
 
@@ -12,7 +10,6 @@ import pl.sdacademy.library.view.ScreenOptions.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Function;
 
 public class ViewConsole implements View {
   // It defines Welcome Menu view. Corrected !
@@ -149,20 +146,42 @@ public class ViewConsole implements View {
 	return result;
   }
 
-  // It defines Actions Menu view
+  // It defines Actions Menu view. Corrected!
   @Override
-  public String showActionMenuAndReturnSelectedPosition () {
-	System.out.println(" --------------- LibrarY Actions Menu  --------------- ");
-	System.out.println(" ----------------------------------------------------- ");
-	System.out.println(" - [B] Book | [U] User | [O] bOrrow | [G] Give back --");
-	System.out.println(" - [A] Author | [D] Delete User [E] dElete author ----");
-	System.out.println(" ------------------- Make a choice ------------------- ");
-	System.out.println(" -------------------- Or [C] baCk -------------------- ");
-	System.out.print(" -->:");
+  public ActionsScreenMenu showActionMenuAndReturnSelectedPosition () {
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" -------------------------------------- Actions menu ------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" -------- ["
+		+ ActionsScreenMenu.ADD_USER.label
+		+ "] Add User | ["
+		+ ActionsScreenMenu.DELETE_USER.label
+		+ "] Delete User | ["
+		+ ActionsScreenMenu.ADD_AUTHOR.label
+		+ "] Add Author | ["
+		+ ActionsScreenMenu.DELETE_AUTHOR.label
+		+ "] Delete Author --------");
+	System.out.println(" ------- ["
+		+ ActionsScreenMenu.ADD_BOOK.label
+		+ "] Add Book | ["
+		+ ActionsScreenMenu.DELETE_BOOK.label
+		+ "] Delete Book | ["
+		+ ActionsScreenMenu.BORROW_BOOK.label
+		+ "] Borrow Book | ["
+		+ ActionsScreenMenu.GIVE_BACK_BOOK.label
+		+ "] Give back Book -------");
+	System.out.println(" --------------------------------------- ["
+		+ ActionsScreenMenu.BACK.label
+		+ "] Back ---------------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.print(" : ");
 
 	Scanner scanner = new Scanner(System.in);
 
-	return scanner.nextLine();
+	ActionsScreenMenu result = ActionsScreenMenu.valueOfLabel(scanner.nextLine());
+	System.out.println();
+
+	return result;
   }
 
   // It defines Reports Menu view. Corrected!
@@ -395,6 +414,12 @@ public class ViewConsole implements View {
 	  case 2:
 		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
 		System.out.println(" - Wrong author ID provided");
+		System.out.println(" ----------------------------------------------------------------------------------------- ");
+		System.out.println();
+		break;
+	  case 3:
+		System.out.println(" -------------------------------------- !! ERROR !! -------------------------------------- ");
+		System.out.println(" - Author is assigned to book");
 		System.out.println(" ----------------------------------------------------------------------------------------- ");
 		System.out.println();
 		break;

@@ -9,7 +9,6 @@ import pl.sdacademy.library.model.utils.HibernateUtils;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-//TODO dodaj książki do authora
 class AuthorDaoImplTest {
   @BeforeEach
   void clearBeforeEach(){

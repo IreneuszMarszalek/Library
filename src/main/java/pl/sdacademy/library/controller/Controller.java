@@ -8,11 +8,7 @@ import pl.sdacademy.library.model.dto.AuthorDto;
 import pl.sdacademy.library.model.dto.BookDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
-import pl.sdacademy.library.model.entity.Book;
-import pl.sdacademy.library.view.ScreenOptions.ContinueScreenOption;
-import pl.sdacademy.library.view.ScreenOptions.MainMenuScreenOption;
-import pl.sdacademy.library.view.ScreenOptions.ReportsMenuScreenOption;
-import pl.sdacademy.library.view.ScreenOptions.WelcomeMenuScreenOption;
+import pl.sdacademy.library.view.ScreenOptions.*;
 import pl.sdacademy.library.view.View;
 import pl.sdacademy.library.view.ViewConsole;
 
@@ -54,7 +50,7 @@ public class Controller {
   // ------------- INIT -------------
   //It creates default user, Corrected !
   public void init () {
-	if (newModel.getUserByNick("ADMIN") == null) {
+	if (newModel.getUserDtoByNick("ADMIN") == null) {
 	  UserDto user = new UserDto();
 
 	  user.setNick("ADMIN");
@@ -63,7 +59,7 @@ public class Controller {
 	  user.setActive(true);
 	  user.setJoiningDate(LocalDate.now());
 
-	  newModel.addNewUser(user);
+	  newModel.addNewUserDto(user);
 	}
   }
 
@@ -116,56 +112,43 @@ public class Controller {
 	} while (option == null);
   }
 
-  //Actions view
+  //Actions view. Corrected !
   private void handleActionsOption () {
-	String option;
+	ActionsScreenMenu option;
 	do {
 	  option = view.showActionMenuAndReturnSelectedPosition();
-	  switch (option) {
-		case "B":
-		case "b":
-		  handleAddBookOption();
-		  break;
-		case "U":
-		case "u":
-		  handleCreateUserOptionFromActionsMenu();
-		  break;
-		case "O":
-		case "o":
-		  handleBorrowBook();
-		  break;
-		case "G":
-		case "g":
-		  handleGiveBookBackOption();
-		  break;
-		case "C":
-		case "c":
-		  handleMainMenuOption();
-		  break;
-		case "A":
-		case "a":
-		  handleAddAuthorOption();
-		  break;
-		case "D":
-		case "d":
-		  handleDeleteUserOption();
-		  break;
-		case "E":
-		case "e":
-		  handleDeleteAuthorOption();
-		  break;
-
+	  if (option != null) {
+		switch (option) {
+		  case ADD_USER:
+			handleCreateUserOptionFromActionsMenu();
+			break;
+		  case DELETE_USER:
+			handleDeleteUserOption();
+			break;
+		  case ADD_AUTHOR:
+			handleAddAuthorOption();
+			break;
+		  case DELETE_AUTHOR:
+			handleDeleteAuthorOption();
+			break;
+		  case ADD_BOOK:
+			handleAddBookOption();
+			break;
+		  case DELETE_BOOK:
+			handleDeleteBookOption();
+			break;
+		  case BORROW_BOOK:
+			handleBorrowBook();
+			break;
+		  case GIVE_BACK_BOOK:
+			handleGiveBookBackOption();
+			break;
+		  case BACK:
+			handleMainMenuOption();
+			break;
+		}
 	  }
-	} while (
-		(!("B".equalsIgnoreCase(option)))
-			&& (!("U".equalsIgnoreCase(option)))
-			&& (!("O".equalsIgnoreCase(option)))
-			&& (!("G".equalsIgnoreCase(option)))
-			&& (!("C".equalsIgnoreCase(option)))
-			&& (!("A".equalsIgnoreCase(option)))
-			&& (!("D".equalsIgnoreCase(option)))
-			&& (!("E".equalsIgnoreCase(option)))
-	);
+	} while (option == null);
   }
 
   private void handleSettingsOption () {
@@ -191,7 +174,7 @@ public class Controller {
 
 	if (checkIfUserCanBeCreated(user)) {
 	  view.displayCreateUserMsg(user);
-	  newModel.addNewUser(user);
+	  newModel.addNewUserDto(user);
 	  handleMainMenuOption();
 	} else {
 	  start();
@@ -204,7 +187,7 @@ public class Controller {
 
 	if (checkIfUserCanBeCreated(user)) {
 	  view.displayCreateUserMsg(user);
-	  newModel.addNewUser(user);
+	  newModel.addNewUserDto(user);
 	}
 	handleActionsOption();
   }
@@ -215,16 +198,15 @@ public class Controller {
 	Long userId = checkIfUserCanBeDeleted(userIdStr);
 
 	if (userId != -1) {
-	  view.displayDeleteUserMsg(newModel.getUser(userId));
-	  newModel.deleteUser(newModel.getUser(userId));
+	  view.displayDeleteUserMsg(newModel.getUserDto(userId));
+	  newModel.deleteUserDto(newModel.getUserDto(userId));
 	}
 	handleActionsOption();
-
   }
 
   //Displays users. Corrected !
   private void handleUsersReportOption () {
-	view.printUserList(newModel.getAllUsers());
+	view.printUserList(newModel.getAllUsersDto());
 	ContinueScreenOption option;
 
 	do {
@@ -245,14 +227,14 @@ public class Controller {
   }
 
   //It deletes Author. Corrected !
-  private void handleDeleteAuthorOption(){
+  private void handleDeleteAuthorOption () {
 	String authorIdStr = view.showDeleteAuthorMenuAndReturnUser();
 
 	Long authorId = checkIfAuthorCanBeDeleted(authorIdStr);
 
 	if (authorId != -1) {
 	  view.displayDeleteAuthorMsg(newModel.getAuthorDto(authorId));
-	  newModel.deleteAuthor(newModel.getAuthorDto(authorId));
+	  newModel.deleteAuthorDto(newModel.getAuthorDto(authorId));
 	}
 	handleActionsOption();
 
@@ -260,7 +242,7 @@ public class Controller {
 
   //It display authors. Corrected !
   private void handleAuthorReportOption () {
-	view.printAuthorList(newModel.getAllAuthors());
+	view.printAuthorList(newModel.getAllAuthorsDto());
 	ContinueScreenOption option;
 
 	do {
@@ -274,8 +256,8 @@ public class Controller {
   private void handleAddBookOption () {
 	BookDto book = view.showCreateBookMenuAndReturnBook();
 
-	if(checkIfBookCanBeCreated(book)){
-	  List<AuthorDto> names =  newModel.getAuthorByName(book.getAuthor().getName());
+	if (checkIfBookCanBeCreated(book)) {
+	  List<AuthorDto> names = newModel.getAuthorDtoByName(book.getAuthor().getName());
 	  List<AuthorDto> secondNames = names
 		  .stream()
 		  .filter(author -> author.getSecondName().equals(book.getAuthor().getSecondName()))
@@ -291,14 +273,14 @@ public class Controller {
 		newModel.addNewAuthor(book.getAuthor());
 	  }
 	  view.displayCreateBookMsg(book);
-	  newModel.addNewBook(book);
+	  newModel.addNewBookDto(book);
 	}
 	handleActionsOption();
   }
 
   //Displays books list. Corrected!
   private void handleBooksReportOption () {
-	view.printBookList(newModel.getAllBooks());
+	view.printBookList(newModel.getAllBooksDto());
 	ContinueScreenOption option;
 
 	do {
@@ -308,8 +290,10 @@ public class Controller {
 	handleReportsOption();
   }
 
-  private void handleBorrowedReportOption () {
+  private void handleDeleteBookOption(){
+  }
 
+  private void handleBorrowedReportOption () {
   }
 
   private void handleGiveBookBackOption () {
@@ -329,7 +313,7 @@ public class Controller {
 	  return -1;
 	} else {
 	  userId = Long.parseLong(userIdStr);
-	  if (newModel.getUser(userId) == null) {
+	  if (newModel.getUserDto(userId) == null) {
 		view.displayDeleteUserErrorMsg(2);
 		return -1;
 	  } else {
@@ -353,7 +337,7 @@ public class Controller {
 		view.displayCreateUserErrorMsg(2);
 		return false;
 	  } else {
-		if (newModel.getUserByNick(nick) != null) {
+		if (newModel.getUserDtoByNick(nick) != null) {
 		  view.displayCreateUserErrorMsg(1);
 		  return false;
 		} else {
@@ -363,6 +347,7 @@ public class Controller {
 	}
   }
 
+  //Check if User can be log in
   private boolean checkIfUserCanLogIn (UserDto user) {
 	String nick = user.getNick();
 	String password = user.getPassword();
@@ -375,12 +360,12 @@ public class Controller {
 		view.displayLoginErrorMsg(2);
 		return false;
 	  } else {
-		if (newModel.getUserByNick(nick) == null) {
+		if (newModel.getUserDtoByNick(nick) == null) {
 		  view.displayLoginErrorMsg(1);
 		  return false;
 		} else {
-		  Long foundUserId = newModel.getUserByNick(nick).getId();
-		  String foundPassword = newModel.getUser(foundUserId).getPassword();
+		  Long foundUserId = newModel.getUserDtoByNick(nick).getId();
+		  String foundPassword = newModel.getUserDto(foundUserId).getPassword();
 		  if (password.equals(foundPassword)) {
 			return true;
 		  } else {
@@ -392,6 +377,7 @@ public class Controller {
 	}
   }
 
+  //Check if author can be created
   private boolean checkIfAuthorCanBeCreated (AuthorDto author) {
 	if (author.getName() == null) {
 	  view.displayCreateAuthorErrorMsg(1);
@@ -406,6 +392,7 @@ public class Controller {
 	}
 
   }
+
   //Check if Author can be deleted
   private long checkIfAuthorCanBeDeleted (String authorIdStr) {
 
@@ -416,17 +403,22 @@ public class Controller {
 	  return -1;
 	} else {
 	  authorId = Long.parseLong(authorIdStr);
-	  if (newModel.getAuthor(authorId) == null) {
+	  Author author = newModel.getAuthor(authorId);
+	  if (author == null) {
 		view.displayDeleteAuthorErrorMsg(2);
 		return -1;
 	  } else {
-		//TODO: Sprawdz czy uzytkownik ma przypisane książki
-		return authorId;
+		if (newModel.checkIfAuthorHasBook(author)) {
+		  view.displayDeleteAuthorErrorMsg(3);
+		  return -1;
+		} else {
+		  return authorId;
+		}
 	  }
 	}
   }
 
-  private boolean checkIfBookCanBeCreated(BookDto book){
+  private boolean checkIfBookCanBeCreated (BookDto book) {
 	if (book.getTitle() == null) {
 	  view.displayCreateBookErrorMsg(1);
 	  return false;

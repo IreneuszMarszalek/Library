@@ -36,29 +36,29 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public List<UserDto> getAllUsers () {
+  public List<UserDto> getAllUsersDto () {
 	List<UserDto> result = userMapper.map(userDao.findAll());
     return result;
   }
 
   @Override
-  public UserDto getUser (Long UserId) {
+  public UserDto getUserDto (Long UserId) {
     return userMapper.map(userDao.findByID(UserId));
   }
 
   @Override
-  public UserDto getUserByNick (String nick) {
+  public UserDto getUserDtoByNick (String nick) {
     return userMapper.map(userDao.findByNick(nick));
   }
 
   @Override
-  public void addNewUser (UserDto userDto) {
+  public void addNewUserDto (UserDto userDto) {
     User user = userMapper.map(userDto);
     userDao.save(user);
   }
 
   @Override
-  public void deleteUser (UserDto userDto) {
+  public void deleteUserDto (UserDto userDto) {
     User user = userMapper.map(userDto);
     userDao.delete(user.getId());
   }
@@ -70,7 +70,7 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public List<AuthorDto> getAllAuthors () {
+  public List<AuthorDto> getAllAuthorsDto () {
     List<AuthorDto> result = authorMapper.map(authorDao.findAll());
     return result;
   }
@@ -84,7 +84,7 @@ public class ModelImpl implements Model {
     return authorDao.findByID(authorID);
   }
 
-  public List<AuthorDto> getAuthorByName(String name){
+  public List<AuthorDto> getAuthorDtoByName (String name){
     return authorMapper.map(authorDao.findByName(name));
   }
 
@@ -100,36 +100,49 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public void deleteAuthor (AuthorDto authorDto) {
+  public void deleteAuthorDto (AuthorDto authorDto) {
     Author author = authorMapper.map(authorDto);
     authorDao.delete(author.getId());
   }
 
-  //TODO: Po zrobieniu book dto sprawdz czy author ma ksiazke
   @Override
-  public boolean checkIfAuthorHasBook (AuthorDto author) {
-    return false;
+  public boolean checkIfAuthorDtoHasBook (AuthorDto authorDto) {
+    Author author = authorMapper.map(getAuthorDto(authorDto.getId()));
+    if(author != null){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   @Override
-  public List<BookDto> getAllBooks () {
+  public boolean checkIfAuthorHasBook (Author author) {
+    if(getAuthor(author.getId()) != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  @Override
+  public List<BookDto> getAllBooksDto () {
     List<BookDto> result = bookMapper.map(bookDao.findAll());
     return result;
   }
 
   @Override
-  public BookDto getBook (Long bookId) {
+  public BookDto getBookDto (Long bookId) {
     return bookMapper.map(bookDao.findByID(bookId));
   }
 
   @Override
-  public void addNewBook (BookDto bookDto) {
+  public void addNewBookDto (BookDto bookDto) {
     Book book = bookMapper.map(bookDto);
     bookDao.save(book);
   }
 
   @Override
-  public void deleteBook (BookDto bookDto) {
+  public void deleteBookDto (BookDto bookDto) {
     Book book = bookMapper.map(bookDto);
     bookDao.delete(book.getId());
   }

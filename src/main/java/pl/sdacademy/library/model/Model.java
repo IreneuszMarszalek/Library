@@ -9,24 +9,25 @@ import java.util.List;
 
 public interface Model {
 
-  List<UserDto> getAllUsers();
-  UserDto getUser(Long userId);
-  void addNewUser(UserDto userDto);
-  UserDto getUserByNick(String nick);
-  void deleteUser(UserDto userDto);
+  List<UserDto> getAllUsersDto ();
+  UserDto getUserDto (Long userId);
+  void addNewUserDto (UserDto userDto);
+  UserDto getUserDtoByNick (String nick);
+  void deleteUserDto (UserDto userDto);
   boolean checkIfUserHasHistory(UserDto user); //TODO: Potrzebne do usuwania uzytkownika
 
-  List<AuthorDto> getAllAuthors();
-  AuthorDto getAuthorDto(Long authorID);
-  Author getAuthor(Long authorID);
-  List<AuthorDto> getAuthorByName(String name);
+  List<AuthorDto> getAllAuthorsDto ();
+  AuthorDto getAuthorDto(Long authorId);
+  Author getAuthor(Long authorId);
+  List<AuthorDto> getAuthorDtoByName (String name);
   void addNewAuthorDto(AuthorDto authorDto);
   void addNewAuthor(Author author);
-  void deleteAuthor(AuthorDto authorDto);
-  boolean checkIfAuthorHasBook(AuthorDto author); // TODO: Potrzbne do usuwania authora
+  void deleteAuthorDto (AuthorDto authorDto);
+  boolean checkIfAuthorDtoHasBook (AuthorDto authorDto);
+  boolean checkIfAuthorHasBook (Author author);
 
-  List<BookDto> getAllBooks();
-  BookDto getBook(Long bookId);
-  void addNewBook(BookDto bookDto);
-  void deleteBook(BookDto bookDto);
+  List<BookDto> getAllBooksDto ();
+  BookDto getBookDto (Long bookId);
+  void addNewBookDto (BookDto bookDto);
+  void deleteBookDto (BookDto bookDto);
 }
