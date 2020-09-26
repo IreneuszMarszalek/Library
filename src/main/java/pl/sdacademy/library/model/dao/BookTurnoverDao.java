@@ -8,4 +8,6 @@ public interface BookTurnoverDao {
   BookTurnover findByID(Long id);
   List<BookTurnover> findAll();
   void delete(Long id);
+  List<BookTurnover> findAllBorrowedBooks();
+  List<BookTurnover> findAllNotBorrowedBooks();
 }

@@ -2,6 +2,7 @@ package pl.sdacademy.library.model;
 
 import pl.sdacademy.library.model.dto.AuthorDto;
 import pl.sdacademy.library.model.dto.BookDto;
+import pl.sdacademy.library.model.dto.BookTurnoverDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 
@@ -30,4 +31,8 @@ public interface Model {
   BookDto getBookDto (Long bookId);
   void addNewBookDto (BookDto bookDto);
   void deleteBookDto (BookDto bookDto);
+
+  List<BookTurnoverDto> getAllTurnOvers();
+  List<BookTurnoverDto> getAllBorrowedBooks();
+  List<BookTurnoverDto> getAllNotBorrowedBooks();
 }

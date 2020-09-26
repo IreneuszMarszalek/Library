@@ -2,18 +2,22 @@ package pl.sdacademy.library.model;
 import org.mapstruct.factory.Mappers;
 import pl.sdacademy.library.model.dao.AuthorDao;
 import pl.sdacademy.library.model.dao.BookDao;
+import pl.sdacademy.library.model.dao.BookTurnoverDao;
 import pl.sdacademy.library.model.dao.UserDao;
 import pl.sdacademy.library.model.daoimpl.AuthorDaoImpl;
 import pl.sdacademy.library.model.daoimpl.BookDaoImpl;
 import pl.sdacademy.library.model.daoimpl.UserDaoImpl;
 import pl.sdacademy.library.model.dto.AuthorDto;
 import pl.sdacademy.library.model.dto.BookDto;
+import pl.sdacademy.library.model.dto.BookTurnoverDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
+import pl.sdacademy.library.model.entity.BookTurnover;
 import pl.sdacademy.library.model.entity.User;
 import pl.sdacademy.library.model.mapper.AuthorMapper;
 import pl.sdacademy.library.model.mapper.BookMapper;
+import pl.sdacademy.library.model.mapper.BookTurnoverMapper;
 import pl.sdacademy.library.model.mapper.UserMapper;
 
 import java.util.List;
@@ -22,9 +26,11 @@ public class ModelImpl implements Model {
   private UserDao userDao;
   private AuthorDao authorDao;
   private BookDao bookDao;
+  private BookTurnoverDao bookTurnoverDao;
   private UserMapper userMapper;
   private AuthorMapper authorMapper;
   private BookMapper bookMapper;
+  private BookTurnoverMapper bookTurnoverMapper;
 
   public ModelImpl(){
     userDao = new UserDaoImpl();
@@ -33,6 +39,7 @@ public class ModelImpl implements Model {
     userMapper = Mappers.getMapper(UserMapper.class);
     authorMapper = Mappers.getMapper(AuthorMapper.class);
     bookMapper = Mappers.getMapper(BookMapper.class);
+    bookTurnoverMapper = Mappers.getMapper(BookTurnoverMapper.class);
   }
 
   @Override
@@ -145,5 +152,23 @@ public class ModelImpl implements Model {
   public void deleteBookDto (BookDto bookDto) {
     Book book = bookMapper.map(bookDto);
     bookDao.delete(book.getId());
+  }
+
+  @Override
+  public List<BookTurnoverDto> getAllTurnOvers () {
+    List<BookTurnoverDto> result = bookTurnoverMapper.map(bookTurnoverDao.findAll());
+    return result;
+  }
+
+  @Override
+  public List<BookTurnoverDto> getAllBorrowedBooks () {
+    List<BookTurnoverDto> result =bookTurnoverMapper.map(bookTurnoverDao.findAllBorrowedBooks());
+    return result;
+  }
+
+  @Override
+  public List<BookTurnoverDto> getAllNotBorrowedBooks () {
+    List<BookTurnoverDto> result =bookTurnoverMapper.map(bookTurnoverDao.findAllNotBorrowedBooks());
+    return result;
   }
 }

@@ -86,4 +86,52 @@ public class BookTurnOverDaoImpl implements BookTurnoverDao {
 	session.getTransaction().commit();
 	session.close();
   }
+
+  @Override
+  public List<BookTurnover> findAllBorrowedBooks () {
+	Session session = HibernateUtils
+		.getInstance()
+		.GetSessionFactory()
+		.getCurrentSession();
+
+	session.beginTransaction();
+	List borrowedBooks = null;
+
+	try{
+	  borrowedBooks = session
+		  .createQuery("from BookTurnover where returnDate is null")
+		  .list();
+	}catch (NoResultException e){
+	  e.getStackTrace();
+	}
+
+	session.getTransaction().commit();
+	session.close();
+
+    return borrowedBooks;
+  }
+
+  @Override
+  public List<BookTurnover> findAllNotBorrowedBooks () {
+	Session session = HibernateUtils
+		.getInstance()
+		.GetSessionFactory()
+		.getCurrentSession();
+
+	session.beginTransaction();
+	List notBorrowedBooks = null;
+
+	try{
+	  notBorrowedBooks = session
+		  .createQuery("from BookTurnover where returnDate is not null")
+		  .list();
+	}catch (NoResultException e){
+	  e.getStackTrace();
+	}
+
+	session.getTransaction().commit();
+	session.close();
+
+	return notBorrowedBooks;
+  }
 }

@@ -152,4 +152,93 @@ class BookTurnOverDaoImplTest {
     BookTurnover deleted = dao.findByID(turnover.getId());
     assertNull(deleted);
   }
+
+  @Test
+  void findAllBorrowedBook () {
+    BookTurnoverDao dao = new BookTurnOverDaoImpl();
+    BookDao daoBook = new BookDaoImpl();
+    AuthorDao daoAuthor = new AuthorDaoImpl();
+    UserDao daoUser = new UserDaoImpl();
+
+    User user = new User();
+    user.setNick("Ja");
+    user.setName("Ireneusz");
+    user.setSecondName("Marszałek");
+    daoUser.save(user);
+
+    Author author = new Author();
+    author.setName("Karol");
+    author.setSecondName("May");
+    daoAuthor.save(author);
+
+    Book book = new Book();
+    book.setTitle("Winnetou");
+    book.setAuthor(author);
+    daoBook.save(book);
+
+    BookTurnover turnover = new BookTurnover();
+    turnover.setLoanDate(LocalDate.now());
+    turnover.setPeriod(30);
+    turnover.setBook(book);
+    turnover.setUser(user);
+    dao.save(turnover);
+
+    List<BookTurnover> turnovers = dao.findAllBorrowedBooks();
+
+    assertNotNull(turnovers);
+    assertEquals(1, turnovers.size());
+
+    BookTurnover found = turnovers.get(0);
+
+    assertNotNull(found);
+
+    assertEquals(turnover.getId(), found.getId());
+    assertEquals(turnover.getUser().getId(), found.getUser().getId());
+    assertEquals(turnover.getBook().getId(), found.getBook().getId());
+  }
+
+  @Test
+  void findAllNotBorrowedBooks () {
+    BookTurnoverDao dao = new BookTurnOverDaoImpl();
+    BookDao daoBook = new BookDaoImpl();
+    AuthorDao daoAuthor = new AuthorDaoImpl();
+    UserDao daoUser = new UserDaoImpl();
+
+    User user = new User();
+    user.setNick("Ja");
+    user.setName("Ireneusz");
+    user.setSecondName("Marszałek");
+    daoUser.save(user);
+
+    Author author = new Author();
+    author.setName("Karol");
+    author.setSecondName("May");
+    daoAuthor.save(author);
+
+    Book book = new Book();
+    book.setTitle("Winnetou");
+    book.setAuthor(author);
+    daoBook.save(book);
+
+    BookTurnover turnover = new BookTurnover();
+    turnover.setLoanDate(LocalDate.now());
+    turnover.setReturnDate(LocalDate.now());
+    turnover.setPeriod(30);
+    turnover.setBook(book);
+    turnover.setUser(user);
+    dao.save(turnover);
+
+    List<BookTurnover> turnovers = dao.findAllNotBorrowedBooks();
+
+    assertNotNull(turnovers);
+    assertEquals(1, turnovers.size());
+
+    BookTurnover found = turnovers.get(0);
+
+    assertNotNull(found);
+
+    assertEquals(turnover.getId(), found.getId());
+    assertEquals(turnover.getUser().getId(), found.getUser().getId());
+    assertEquals(turnover.getBook().getId(), found.getBook().getId());
+  }
 }
