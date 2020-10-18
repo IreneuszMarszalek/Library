@@ -2,10 +2,13 @@ package pl.sdacademy.library.model.daoimpl;
 
 import org.hibernate.Session;
 import pl.sdacademy.library.model.dao.BookTurnoverDao;
+import pl.sdacademy.library.model.entity.Book;
 import pl.sdacademy.library.model.entity.BookTurnover;
 import pl.sdacademy.library.model.utils.HibernateUtils;
 
 import javax.persistence.NoResultException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 public class BookTurnOverDaoImpl implements BookTurnoverDao {
@@ -133,5 +136,38 @@ public class BookTurnOverDaoImpl implements BookTurnoverDao {
 	session.close();
 
 	return notBorrowedBooks;
+  }
+
+  @Override
+  public Boolean isBookOverDue (Book book) {
+	Session session = HibernateUtils
+		.getInstance()
+		.GetSessionFactory()
+		.getCurrentSession();
+
+	session.beginTransaction();
+
+	BookTurnover turnover = null;
+
+	try{
+	  turnover = session
+		  .createQuery("from BookTurnover where book=:book", BookTurnover.class)
+		  .setParameter("book", book)
+		  .getSingleResult();
+
+	}catch (NoResultException e){
+	  e.getStackTrace();
+	}
+	session.getTransaction().commit();
+	session.close();
+
+	Period period = Period.between(LocalDate.now(), turnover.getReturnDate());
+	int duration = period.getDays();
+
+	if (duration < 0){
+	  return true;
+	}else{
+	  return false;
+	}
   }
 }

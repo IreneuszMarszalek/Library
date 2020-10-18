@@ -294,6 +294,14 @@ public class Controller {
   }
 
   private void handleBorrowedReportOption () {
+    view.printBorrowedBookList(newModel.getAllBorrowedBooks());
+	ContinueScreenOption option;
+
+	do {
+	  option = view.printContinue();
+	} while (option != ContinueScreenOption.CONTINUE);
+
+	handleReportsOption();
   }
 
   private void handleGiveBookBackOption () {

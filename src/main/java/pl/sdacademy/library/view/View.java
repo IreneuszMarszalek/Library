@@ -2,6 +2,7 @@ package pl.sdacademy.library.view;
 
 import pl.sdacademy.library.model.dto.AuthorDto;
 import pl.sdacademy.library.model.dto.BookDto;
+import pl.sdacademy.library.model.dto.BookTurnoverDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.entity.Book;
@@ -25,6 +26,7 @@ public interface View {
   void printAuthorList(List<AuthorDto> authorList);
   void printBookList(List<BookDto> bookList);
   ContinueScreenOption printContinue();
+  void printBorrowedBookList(List<BookTurnoverDto> borrowedBooks);
 
   void displayLoginErrorMsg(int errorCode);
   void displayCreateUserErrorMsg(int errorCode);

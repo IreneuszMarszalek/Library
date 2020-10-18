@@ -1,6 +1,7 @@
 package pl.sdacademy.library.view;
 import pl.sdacademy.library.model.dto.AuthorDto;
 import pl.sdacademy.library.model.dto.BookDto;
+import pl.sdacademy.library.model.dto.BookTurnoverDto;
 import pl.sdacademy.library.model.dto.UserDto;
 import pl.sdacademy.library.model.entity.Author;
 import pl.sdacademy.library.model.utils.Console;
@@ -10,6 +11,7 @@ import pl.sdacademy.library.view.ScreenOptions.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class ViewConsole implements View {
   // It defines Welcome Menu view. Corrected !
@@ -200,7 +202,7 @@ public class ViewConsole implements View {
 		+ ReportsMenuScreenOption.AUTHORS.label
 		+ "] Authors | ["
 		+ ReportsMenuScreenOption.BACK.label
-		+ "] baCk ------------- ");
+		+ "] baCk ------------ ");
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
 	System.out.print(" : ");
 
@@ -310,6 +312,33 @@ public class ViewConsole implements View {
 				+ bookDto.getAuthor().getName() + " " + bookDto.getAuthor().getSecondName()
 			)
 		);
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+  }
+
+  public void printBorrowedBookList(List<BookTurnoverDto> borrowedBooks){
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" --------------------------------- Borrowed Books List  ---------------------------------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	System.out.println(" - User | Book | Author | Borrowed Date | Period | Should return date | Over due --------- ");
+	System.out.println(" ----------------------------------------------------------------------------------------- ");
+	borrowedBooks
+		.stream()
+		.forEach(bookTurnoverDto -> System.out.println(
+			" - "
+			+ bookTurnoverDto.getUser().getNick()
+			+ " | "
+			+ bookTurnoverDto.getBook().getTitle()
+			+ " | "
+			+ bookTurnoverDto.getBook().getAuthor()
+			+ " | "
+			+ bookTurnoverDto.getLoanDate()
+			+ " | "
+			+ bookTurnoverDto.getPeriod()
+			+ " | "
+			+ bookTurnoverDto.getLoanDate().plusDays(bookTurnoverDto.getPeriod())
+			)
+		);
+
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
   }
 
