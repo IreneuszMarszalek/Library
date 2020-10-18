@@ -338,6 +338,7 @@ public class ViewConsole implements View {
 			+ bookTurnoverDto.getLoanDate().plusDays(bookTurnoverDto.getPeriod())
 			)
 		);
+	//TODO: Dodaj czy książka przeterminowna
 
 	System.out.println(" ----------------------------------------------------------------------------------------- ");
   }

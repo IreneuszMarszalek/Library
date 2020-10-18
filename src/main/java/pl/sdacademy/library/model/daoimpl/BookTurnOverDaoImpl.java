@@ -139,6 +139,7 @@ public class BookTurnOverDaoImpl implements BookTurnoverDao {
   }
 
   @Override
+  //TODO: Zrob testy tego
   public Boolean isBookOverDue (Book book) {
 	Session session = HibernateUtils
 		.getInstance()
